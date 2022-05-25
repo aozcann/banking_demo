@@ -1,4 +1,4 @@
-package com.example.finalprojectaozcann.entity;
+package com.example.finalprojectaozcann.model.base;
 
 import lombok.Getter;
 import lombok.Setter;
