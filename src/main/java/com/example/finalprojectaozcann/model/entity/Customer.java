@@ -21,7 +21,7 @@ public class Customer extends BaseExtendedEntity {
     private String surname;
     @Transient
     private String fullName = name + " " + surname;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private Long identityNumber;
     @Column(nullable = false)
     private LocalDate birthday;

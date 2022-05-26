@@ -9,8 +9,8 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.finalprojectaozcann.config.Properties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,8 +40,8 @@ public class CustomJWTAuthenticationFilter extends OncePerRequestFilter {
         try {
             String jwt = findToken(request);
             if (StringUtils.hasLength(jwt) && validate(jwt)) {
-                String username = findUsername(jwt);
-                UserDetails userDetails = customUserDetailService.loadUserByUsername(username);
+                Long username = findUsername(jwt);
+                UserDetails userDetails = customUserDetailService.loadUserByUsername(username.toString());
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -58,14 +58,15 @@ public class CustomJWTAuthenticationFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
             return headerAuth.substring(7);
         }
-        throw new AuthenticationServiceException("Auth token not found");
+        return Strings.EMPTY;
+//        throw new AuthenticationServiceException("Auth token not found");
     }
 
-    public String findUsername(String token) {
+    public Long findUsername(String token) {
         if (!StringUtils.hasLength(token)) {
             throw new IllegalArgumentException("Token can not be null or empty");
         }
-        return JWT.decode(token).getClaim("identityNumber").asString();
+        return JWT.decode(token).getClaim("identityNumber").asLong();
     }
 
     public boolean validate(String token) {
