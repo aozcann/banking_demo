@@ -1,8 +1,8 @@
 package com.example.finalprojectaozcann.model.entity;
 
 import com.example.finalprojectaozcann.model.base.BaseExtendedEntity;
-import com.example.finalprojectaozcann.model.enums.CustomerStatus;
-import com.example.finalprojectaozcann.model.enums.CustomerType;
+import com.example.finalprojectaozcann.model.enums.UserStatus;
+import com.example.finalprojectaozcann.model.enums.UserType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +14,8 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-public class Customer extends BaseExtendedEntity {
+@Table(name="\"user\"")
+public class User extends BaseExtendedEntity {
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
@@ -32,10 +33,10 @@ public class Customer extends BaseExtendedEntity {
     @Column(nullable = false)
     private String email;
     @Enumerated(EnumType.STRING)
-    private CustomerStatus status = CustomerStatus.ACTIVE;
+    private UserStatus status = UserStatus.ACTIVE;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private CustomerType customerType;
+    private UserType userType;
 
 
     @Column(nullable = false)
@@ -44,10 +45,10 @@ public class Customer extends BaseExtendedEntity {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "customer")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private Set<CheckingAccount> bankAccounts = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "customer")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private Set<DepositAccount> depositAccounts = new HashSet<>();
 
 }

@@ -14,8 +14,8 @@ import javax.persistence.ManyToOne;
 public class CheckingAccount extends BaseBankAccount {
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     // Card eklenecek
 }

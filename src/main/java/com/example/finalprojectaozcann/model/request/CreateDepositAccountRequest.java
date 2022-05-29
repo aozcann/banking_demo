@@ -8,6 +8,5 @@ import java.math.BigDecimal;
 public record CreateDepositAccountRequest(BigDecimal balance,
                                           Currency currency,
                                           Maturity maturity,
-                                          BigDecimal interestRate,
-                                          Long CustomerId) {
+                                          Long UserId) {
 }

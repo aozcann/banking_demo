@@ -3,14 +3,14 @@ package com.example.finalprojectaozcann.service.impl;
 import com.example.finalprojectaozcann.converter.BankAccountConverter;
 import com.example.finalprojectaozcann.exception.BusinessServiceOperationException;
 import com.example.finalprojectaozcann.model.entity.CheckingAccount;
-import com.example.finalprojectaozcann.model.entity.Customer;
+import com.example.finalprojectaozcann.model.entity.User;
 import com.example.finalprojectaozcann.model.entity.DepositAccount;
-import com.example.finalprojectaozcann.model.enums.CustomerStatus;
+import com.example.finalprojectaozcann.model.enums.UserStatus;
 import com.example.finalprojectaozcann.model.request.CreateCheckingAccountRequest;
 import com.example.finalprojectaozcann.model.request.CreateDepositAccountRequest;
 import com.example.finalprojectaozcann.model.response.GetBankAccountResponse;
 import com.example.finalprojectaozcann.repository.CheckingAccountRepository;
-import com.example.finalprojectaozcann.repository.CustomerRepository;
+import com.example.finalprojectaozcann.repository.UserRepository;
 import com.example.finalprojectaozcann.repository.DepositAccountRepository;
 import com.example.finalprojectaozcann.service.BankAccountService;
 import lombok.RequiredArgsConstructor;
@@ -29,15 +29,15 @@ public class BankAccountServiceImpl implements BankAccountService {
     private final CheckingAccountRepository checkingAccountRepository;
     private final DepositAccountRepository depositAccountRepository;
     private final BankAccountConverter bankAccountConverter;
-    private final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
 
     @Override
     public GetBankAccountResponse createChecking(CreateCheckingAccountRequest request) {
 
-        Customer customer = findByIdAndIsDeletedAndStatus(request.CustomerId());
+        User user = findByIdAndIsDeletedAndStatus(request.UserId());
         String accountNumber = createAccountNumber();
         String iban = createIban("TR", accountNumber);
-        CheckingAccount checkingAccount = bankAccountConverter.toCreateCheckingAccount(accountNumber, iban, request, customer);
+        CheckingAccount checkingAccount = bankAccountConverter.toCreateCheckingAccount(accountNumber, iban, request, user);
         checkingAccount.setCreatedBy("AhmetOzcan");
         checkingAccount.setCreatedAt(new Date());
         checkingAccountRepository.save(checkingAccount);
@@ -48,10 +48,10 @@ public class BankAccountServiceImpl implements BankAccountService {
     @Override
     public GetBankAccountResponse createDeposit(CreateDepositAccountRequest request) {
 
-        Customer customer = findByIdAndIsDeletedAndStatus(request.CustomerId());
+        User user = findByIdAndIsDeletedAndStatus(request.UserId());
         String accountNumber = createAccountNumber();
         String iban = createIban("TR", accountNumber);
-        DepositAccount depositAccount = bankAccountConverter.toCreateDepositAccount(accountNumber, iban, request, customer);
+        DepositAccount depositAccount = bankAccountConverter.toCreateDepositAccount(accountNumber, iban, request, user);
         depositAccount.setCreatedBy("AhmetOzcan");
         depositAccount.setCreatedAt(new Date());
         depositAccountRepository.save(depositAccount);
@@ -78,10 +78,10 @@ public class BankAccountServiceImpl implements BankAccountService {
                 accountNumber;
     }
 
-    private Customer findByIdAndIsDeletedAndStatus(Long id) {
-        return customerRepository
-                .findByIdAndIsDeletedAndStatus(id, false, CustomerStatus.ACTIVE)
-                .orElseThrow(() -> new BusinessServiceOperationException.CustomerNotFoundException("Customer not found"));
+    private User findByIdAndIsDeletedAndStatus(Long id) {
+        return userRepository
+                .findByIdAndIsDeletedAndStatus(id, false, UserStatus.ACTIVE)
+                .orElseThrow(() -> new BusinessServiceOperationException.UserNotFoundException("User not found"));
     }
 
 }

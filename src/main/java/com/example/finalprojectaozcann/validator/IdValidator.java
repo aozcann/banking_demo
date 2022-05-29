@@ -9,7 +9,7 @@ public class IdValidator implements Validator<Long> {
     @Override
     public void validate(Long id) throws BaseValidationException {
         if (id < 0) {
-            throw new ValidationOperationException.CustomerIDNotValidException("ID should be greater than zero.");
+            throw new ValidationOperationException.UserIDNotValidException("ID should be greater than zero.");
         }
     }
 }

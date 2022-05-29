@@ -1,5 +1,5 @@
 package com.example.finalprojectaozcann.model.response;
 
-public record CreateCustomerResponse(Long id) {
+public record CreateUserResponse(Long id) {
 
 }

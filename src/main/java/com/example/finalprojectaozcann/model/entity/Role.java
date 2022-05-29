@@ -15,5 +15,5 @@ public class Role extends BaseExtendedEntity {
     private String name;
 
     @ManyToOne
-    private Customer customer;
+    private User user;
 }

@@ -1,6 +1,6 @@
 package com.example.finalprojectaozcann.model.base;
 
-import com.example.finalprojectaozcann.model.entity.Customer;
+import com.example.finalprojectaozcann.model.entity.User;
 import com.example.finalprojectaozcann.model.enums.AccountStatus;
 import com.example.finalprojectaozcann.model.enums.AccountType;
 import com.example.finalprojectaozcann.model.enums.Currency;
@@ -37,6 +37,6 @@ public abstract class BaseBankAccount extends BaseExtendedEntity {
     private AccountStatus accountStatus;
 
     @ManyToOne
-    private Customer customer;
+    private User user;
 
 }

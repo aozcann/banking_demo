@@ -6,5 +6,5 @@ import java.math.BigDecimal;
 
 public record CreateCheckingAccountRequest(BigDecimal balance,
                                            Currency currency,
-                                           Long CustomerId) {
+                                           Long UserId) {
 }

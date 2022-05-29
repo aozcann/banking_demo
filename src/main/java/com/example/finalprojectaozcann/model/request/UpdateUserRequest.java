@@ -1,12 +1,12 @@
 package com.example.finalprojectaozcann.model.request;
 
-import com.example.finalprojectaozcann.model.enums.CustomerStatus;
-import com.example.finalprojectaozcann.model.enums.CustomerType;
+import com.example.finalprojectaozcann.model.enums.UserStatus;
+import com.example.finalprojectaozcann.model.enums.UserType;
 import com.example.finalprojectaozcann.model.enums.RoleType;
 
 import java.util.Set;
 
-public record UpdateCustomerRequest(String name,
+public record UpdateUserRequest(String name,
                                     String surname,
                                     Long identityNumber,
                                     String birthday,
@@ -14,7 +14,7 @@ public record UpdateCustomerRequest(String name,
                                     String address,
                                     String email,
                                     String password,
-                                    CustomerStatus customerStatus,
-                                    CustomerType customerType,
+                                    UserStatus userStatus,
+                                    UserType userType,
                                     Set<RoleType> roles) {
 }

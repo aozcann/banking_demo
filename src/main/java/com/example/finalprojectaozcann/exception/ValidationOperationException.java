@@ -5,14 +5,14 @@ public final class ValidationOperationException {
     private ValidationOperationException() {
     }
 
-    public static class CustomerNotValidException extends BaseException {
-        public CustomerNotValidException(String message) {
+    public static class UserNotValidException extends BaseException {
+        public UserNotValidException(String message) {
             super(message);
         }
     }
 
-    public static class CustomerIDNotValidException extends BaseException {
-        public CustomerIDNotValidException(String message) {
+    public static class UserIDNotValidException extends BaseException {
+        public UserIDNotValidException(String message) {
             super(message);
         }
     }

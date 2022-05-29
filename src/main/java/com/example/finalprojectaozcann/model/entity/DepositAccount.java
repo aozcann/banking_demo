@@ -20,7 +20,7 @@ public class DepositAccount extends BaseBankAccount {
     private BigDecimal balanceWithInterest;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

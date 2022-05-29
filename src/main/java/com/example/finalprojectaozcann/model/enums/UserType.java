@@ -1,6 +1,6 @@
 package com.example.finalprojectaozcann.model.enums;
 
-public enum CustomerType {
+public enum UserType {
     INDIVIDUAL,
     BUSINESS
 }

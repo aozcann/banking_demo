@@ -1,7 +1,7 @@
 package com.example.finalprojectaozcann.security;
 
 import com.example.finalprojectaozcann.model.entity.Role;
-import com.example.finalprojectaozcann.model.enums.CustomerStatus;
+import com.example.finalprojectaozcann.model.enums.UserStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,7 +16,7 @@ public class UserDetail implements UserDetails {
     private final String username;
     private final String password;
     private final Set<Role> roles;
-    private final CustomerStatus userStatus;
+    private final UserStatus userStatus;
 
 
     @Override
@@ -41,7 +41,7 @@ public class UserDetail implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return !(userStatus.equals(CustomerStatus.BLOCKED));
+        return !(userStatus.equals(UserStatus.BLOCKED));
     }
 
     @Override
@@ -51,6 +51,6 @@ public class UserDetail implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return userStatus.equals(CustomerStatus.ACTIVE);
+        return userStatus.equals(UserStatus.ACTIVE);
     }
 }
