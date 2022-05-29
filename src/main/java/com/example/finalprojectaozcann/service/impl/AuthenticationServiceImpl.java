@@ -31,7 +31,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.identityNumber().toString(), request.password()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetail userDetail = (UserDetail) authentication.getPrincipal();
-        String token = jwtHelper.generateToken(request.identityNumber());
+        String token = jwtHelper.generateToken(request.identityNumber(), userDetail);
         return new LoginResponse(token,
                 userDetail
                         .getAuthorities()

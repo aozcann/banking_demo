@@ -5,7 +5,6 @@ import com.example.finalprojectaozcann.exception.ValidationOperationException;
 import com.example.finalprojectaozcann.model.request.CreateCheckingAccountRequest;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 @Component
@@ -19,9 +18,9 @@ public class CreateCheckingAccountRequestValidator implements Validator<CreateCh
         if (Objects.isNull(request.currency())) {
             throw new ValidationOperationException.BankAccountNotValidException("Account currency can not be null or empty");
         }
-        if (request.balance().compareTo(BigDecimal.ZERO) < 0) {
-            throw new ValidationOperationException.BankAccountNotValidException("Account balance can not be less than 0");
-        }
+//        if (request.balance().compareTo(BigDecimal.ZERO) < 0) {
+//            throw new ValidationOperationException.BankAccountNotValidException("Account balance can not be less than 0");
+//        }
     }
 
 }

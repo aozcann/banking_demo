@@ -17,6 +17,7 @@ public class UserDetail implements UserDetails {
     private final String password;
     private final Set<Role> roles;
     private final UserStatus userStatus;
+    private final Long id;
 
 
     @Override
@@ -52,5 +53,9 @@ public class UserDetail implements UserDetails {
     @Override
     public boolean isEnabled() {
         return userStatus.equals(UserStatus.ACTIVE);
+    }
+
+    public Long getId() {
+        return id;
     }
 }

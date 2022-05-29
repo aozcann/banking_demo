@@ -13,6 +13,7 @@ import com.example.finalprojectaozcann.repository.CheckingAccountRepository;
 import com.example.finalprojectaozcann.repository.UserRepository;
 import com.example.finalprojectaozcann.repository.DepositAccountRepository;
 import com.example.finalprojectaozcann.service.BankAccountService;
+import com.example.finalprojectaozcann.utils.UserAccountUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,12 +35,8 @@ public class BankAccountServiceImpl implements BankAccountService {
     @Override
     public GetBankAccountResponse createChecking(CreateCheckingAccountRequest request) {
 
-        User user = findByIdAndIsDeletedAndStatus(request.UserId());
-        String accountNumber = createAccountNumber();
-        String iban = createIban("TR", accountNumber);
-        CheckingAccount checkingAccount = bankAccountConverter.toCreateCheckingAccount(accountNumber, iban, request, user);
-        checkingAccount.setCreatedBy("AhmetOzcan");
-        checkingAccount.setCreatedAt(new Date());
+        //TODO?? user null
+        CheckingAccount checkingAccount = bankAccountConverter.toCreateCheckingAccount(request.currency(), null );
         checkingAccountRepository.save(checkingAccount);
 
         return new GetBankAccountResponse(checkingAccount.getId());
@@ -49,8 +46,8 @@ public class BankAccountServiceImpl implements BankAccountService {
     public GetBankAccountResponse createDeposit(CreateDepositAccountRequest request) {
 
         User user = findByIdAndIsDeletedAndStatus(request.UserId());
-        String accountNumber = createAccountNumber();
-        String iban = createIban("TR", accountNumber);
+        String accountNumber = UserAccountUtil.createAccountNumber();
+        String iban = UserAccountUtil.createIban("TR", accountNumber);
         DepositAccount depositAccount = bankAccountConverter.toCreateDepositAccount(accountNumber, iban, request, user);
         depositAccount.setCreatedBy("AhmetOzcan");
         depositAccount.setCreatedAt(new Date());
@@ -60,23 +57,7 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
 
-    private String createAccountNumber() {
-        Random random = new Random();
 
-        Long accountNumber = 10_000_000_000_000_000L + random.nextLong(89_999_999_999_999_999L);
-        return Long.toString(accountNumber);
-    }
-
-    private String createIban(String countryCode, String accountNumber) {
-
-        String checkNumber = "33";
-        String bankCode = "00061";
-
-        return countryCode +
-                checkNumber +
-                bankCode +
-                accountNumber;
-    }
 
     private User findByIdAndIsDeletedAndStatus(Long id) {
         return userRepository

@@ -1,6 +1,5 @@
 package com.example.finalprojectaozcann.config;
 
-import com.example.finalprojectaozcann.security.CustomAccessDeniedHandler;
 import com.example.finalprojectaozcann.security.CustomJWTAuthenticationEntryPoint;
 import com.example.finalprojectaozcann.security.CustomJWTAuthenticationFilter;
 import com.example.finalprojectaozcann.security.CustomUserDetailService;
@@ -17,7 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -29,7 +27,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomUserDetailService customUserDetailService;
     private final CustomJWTAuthenticationEntryPoint customJWTAuthenticationEntryPoint;
     private final CustomJWTAuthenticationFilter customJWTAuthenticationFilter;
-    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public PasswordEncoder bcryptPasswordEncoder() {
@@ -56,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                 .disable()
-                .exceptionHandling().authenticationEntryPoint(customJWTAuthenticationEntryPoint).accessDeniedHandler(customAccessDeniedHandler)
+                .exceptionHandling().authenticationEntryPoint(customJWTAuthenticationEntryPoint)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

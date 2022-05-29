@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/accounts")
 public class BankAccountController {
 
-    //2 tip reuqest olacak account typına göre
+    //TODO admin create account
 
 
     private final Validator<CreateCheckingAccountRequest> createCheckingAccountRequestValidator;
@@ -25,11 +25,10 @@ public class BankAccountController {
     private final Validator<Long> idValidator;
     private final BankAccountService bankAccountService;
 
-    @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
+    @PreAuthorize("hasAuthority('USER')")
     @PostMapping(path = "/checking")
     public ResponseEntity<?> createCheckingAccount(@RequestBody CreateCheckingAccountRequest request) {
         createCheckingAccountRequestValidator.validate(request);
-        idValidator.validate(request.UserId());
         return ResponseEntity.ok(bankAccountService.createChecking(request));
     }
 

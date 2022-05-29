@@ -1,13 +1,15 @@
 package com.example.finalprojectaozcann.model.base;
 
-import com.example.finalprojectaozcann.model.entity.User;
 import com.example.finalprojectaozcann.model.enums.AccountStatus;
 import com.example.finalprojectaozcann.model.enums.AccountType;
 import com.example.finalprojectaozcann.model.enums.Currency;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.MappedSuperclass;
 import java.math.BigDecimal;
 
 @Setter
@@ -35,8 +37,5 @@ public abstract class BaseBankAccount extends BaseExtendedEntity {
 
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
-
-    @ManyToOne
-    private User user;
 
 }

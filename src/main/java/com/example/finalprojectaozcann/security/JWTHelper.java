@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 @Component
@@ -22,12 +24,13 @@ public class JWTHelper {
 
     private final Properties properties;
 
-    public String generateToken(Long identityNumber) {
+    public String generateToken(Long identityNumber, UserDetail userDetail) {
 
         return JWT.create()
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(Date.from(Instant.now()).getTime() + properties.getExpiresIn()))
                 .withClaim("identityNumber", identityNumber)
+                .withClaim("userId", userDetail.getId())
                 .sign(Algorithm.HMAC512(properties.getSecretKey()));
     }
 

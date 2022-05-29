@@ -1,10 +1,13 @@
 package com.example.finalprojectaozcann.service.impl;
 
+import com.example.finalprojectaozcann.converter.BankAccountConverter;
 import com.example.finalprojectaozcann.converter.UserConverter;
 import com.example.finalprojectaozcann.exception.BaseException;
 import com.example.finalprojectaozcann.exception.BusinessServiceOperationException;
+import com.example.finalprojectaozcann.model.entity.CheckingAccount;
 import com.example.finalprojectaozcann.model.entity.Role;
 import com.example.finalprojectaozcann.model.entity.User;
+import com.example.finalprojectaozcann.model.enums.Currency;
 import com.example.finalprojectaozcann.model.enums.RoleType;
 import com.example.finalprojectaozcann.model.enums.UserStatus;
 import com.example.finalprojectaozcann.model.enums.UserType;
@@ -13,6 +16,7 @@ import com.example.finalprojectaozcann.model.request.UpdateUserRequest;
 import com.example.finalprojectaozcann.model.response.CreateUserResponse;
 import com.example.finalprojectaozcann.model.response.GenerateAdminUserResponse;
 import com.example.finalprojectaozcann.model.response.GetUserResponse;
+import com.example.finalprojectaozcann.repository.CheckingAccountRepository;
 import com.example.finalprojectaozcann.repository.UserRepository;
 import com.example.finalprojectaozcann.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -33,12 +37,17 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserConverter userConverter;
+    private final CheckingAccountRepository checkingAccountRepository;
+    private final BankAccountConverter bankAccountConverter;
 
     public CreateUserResponse create(CreateUserRequest request) {
         User user = userConverter.toCreateUser(request);
         userRepository.save(user);
 
+        CheckingAccount checkingAccount = bankAccountConverter.toCreateCheckingAccount(Currency.TRY, user);
+        checkingAccountRepository.save(checkingAccount);
         log.info("User created successfully by id -> {}", user.getId());
+        log.info("User's first checking account is created by id -> {} ", checkingAccount.getId());
         return new CreateUserResponse(user.getId());
     }
 

@@ -18,26 +18,35 @@ import java.util.Set;
 public class User extends BaseExtendedEntity {
     @Column(nullable = false)
     private String name;
+
     @Column(nullable = false)
     private String surname;
+
+    //TODO Fix
     @Transient
     private String fullName = name + " " + surname;
+
     @Column(nullable = false, unique = true,length = 11)
     private Long identityNumber;
+
     @Column(nullable = false)
     private LocalDate birthday;
+
     @Column(nullable = false)
     private String phoneNumber;
+
     @Column(nullable = false)
     private String address;
+
     @Column(nullable = false)
     private String email;
+
     @Enumerated(EnumType.STRING)
     private UserStatus status = UserStatus.ACTIVE;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserType userType;
-
 
     @Column(nullable = false)
     private String password;
@@ -46,7 +55,7 @@ public class User extends BaseExtendedEntity {
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
-    private Set<CheckingAccount> bankAccounts = new HashSet<>();
+    private Set<CheckingAccount> checkingAccounts = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private Set<DepositAccount> depositAccounts = new HashSet<>();

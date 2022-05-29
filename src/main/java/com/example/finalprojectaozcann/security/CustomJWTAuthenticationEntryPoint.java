@@ -26,13 +26,6 @@ public class CustomJWTAuthenticationEntryPoint implements AuthenticationEntryPoi
 
     }
 
-    @ExceptionHandler(value = {AccessDeniedException.class})
-    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
-                         AccessDeniedException accessDeniedException) throws IOException {
-        log.error("AccessDenied error: {}", accessDeniedException.getMessage());
-        httpServletResponse.sendError(HttpStatus.FORBIDDEN.value());
-//        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 
-//        httpServletResponse.getWriter().write(convertObjectToJson(new ErrorResponse(ResponseMessages.NOT_PERMITTED)));
-    }
+
 }
