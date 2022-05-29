@@ -16,4 +16,10 @@ public final class ValidationOperationException {
             super(message);
         }
     }
+
+    public static class BankAccountNotValidException extends BaseException {
+        public BankAccountNotValidException(String message) {
+            super(message);
+        }
+    }
 }

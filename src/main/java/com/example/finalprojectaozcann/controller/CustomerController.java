@@ -20,6 +20,8 @@ public class CustomerController {
     private final Validator<Long> idValidator;
     private final CustomerService customerService;
 
+
+
     @PostMapping()
     public ResponseEntity<?> create(@RequestBody CreateCustomerRequest request) {
         createCustomerRequestValidator.validate(request);

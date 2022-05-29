@@ -21,7 +21,7 @@ public class Customer extends BaseExtendedEntity {
     private String surname;
     @Transient
     private String fullName = name + " " + surname;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true,length = 11)
     private Long identityNumber;
     @Column(nullable = false)
     private LocalDate birthday;
@@ -45,6 +45,9 @@ public class Customer extends BaseExtendedEntity {
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "customer")
-    private Set<BankAccount> bankAccounts = new HashSet<>();
+    private Set<CheckingAccount> bankAccounts = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "customer")
+    private Set<DepositAccount> depositAccounts = new HashSet<>();
 
 }
