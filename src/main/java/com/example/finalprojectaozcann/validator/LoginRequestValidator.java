@@ -1,5 +1,7 @@
 package com.example.finalprojectaozcann.validator;
 
+import com.example.finalprojectaozcann.exception.BaseException;
+import com.example.finalprojectaozcann.exception.BaseValidationException;
 import com.example.finalprojectaozcann.model.request.LoginRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -11,7 +13,7 @@ public class LoginRequestValidator implements Validator<LoginRequest> {
 
 
     @Override
-    public void validate(LoginRequest request) {
+    public void validate(LoginRequest request) throws BaseValidationException {
         if (Objects.isNull(request)) {
             throw new IllegalArgumentException("Request can not be null");
         }

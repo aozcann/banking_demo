@@ -53,13 +53,12 @@ public class CustomJWTAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private String findToken(HttpServletRequest request) {
+    public String findToken(HttpServletRequest request) {
         String headerAuth = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
             return headerAuth.substring(7);
         }
         return Strings.EMPTY;
-//        throw new AuthenticationServiceException("Auth token not found");
     }
 
     public Long findUsername(String token) {
@@ -68,6 +67,14 @@ public class CustomJWTAuthenticationFilter extends OncePerRequestFilter {
         }
         return JWT.decode(token).getClaim("identityNumber").asLong();
     }
+
+    public Long findUserId(String token) {
+        if (!StringUtils.hasLength(token)) {
+            throw new IllegalArgumentException("Token can not be null or empty");
+        }
+        return JWT.decode(token).getClaim("userId").asLong();
+    }
+
 
     public boolean validate(String token) {
         try {

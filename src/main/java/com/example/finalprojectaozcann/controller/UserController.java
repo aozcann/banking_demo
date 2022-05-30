@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 
 @RestController
@@ -33,9 +34,9 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping()
-    public ResponseEntity<?> create(@RequestBody CreateUserRequest request) {
+    public ResponseEntity<?> create(@RequestBody CreateUserRequest request, HttpServletRequest httpServletRequest) {
         createUserRequestValidator.validate(request);
-        return ResponseEntity.ok(userService.create(request));
+        return ResponseEntity.ok(userService.create(request, httpServletRequest));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -54,17 +55,19 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<GetUserResponse> update(@RequestBody UpdateUserRequest request,
-                                                  @PathVariable Long id) {
+                                                  @PathVariable Long id,
+                                                  HttpServletRequest httpServletRequest) {
         idValidator.validate(id);
-        return ResponseEntity.ok(userService.updateUser(request, id));
+        return ResponseEntity.ok(userService.updateUser(request, id, httpServletRequest));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUserById(@PathVariable Long id,
-                                            @RequestParam(name = "isHardDeleted", required = false) boolean isHardDeleted) {
+                                            @RequestParam(name = "isHardDeleted", required = false) boolean isHardDeleted,
+                                            HttpServletRequest httpServletRequest) {
         idValidator.validate(id);
-        return ResponseEntity.ok(userService.deleteUserById(id, isHardDeleted));
+        return ResponseEntity.ok(userService.deleteUserById(id, isHardDeleted, httpServletRequest));
     }
 
 

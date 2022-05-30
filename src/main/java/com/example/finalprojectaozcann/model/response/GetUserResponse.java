@@ -8,12 +8,12 @@ import java.time.LocalDate;
 import java.util.Set;
 
 public record GetUserResponse(Long id,
-                                  String fullName,
-                                  Long identityNumber,
-                                  LocalDate birthday,
-                                  String phoneNumber,
-                                  String email,
-                                  UserStatus status,
-                                  UserType userType,
-                                  Set<Role> roles) {
+                              String fullName,
+                              Long identityNumber,
+                              LocalDate birthday,
+                              String phoneNumber,
+                              String email,
+                              UserStatus status,
+                              UserType userType,
+                              Set<Role> roles) {
 }

@@ -13,14 +13,11 @@ public class CreateCheckingAccountRequestValidator implements Validator<CreateCh
     public void validate(CreateCheckingAccountRequest request) throws BaseValidationException {
 
         if (Objects.isNull(request)) {
-            throw new ValidationOperationException.BankAccountNotValidException("BankAccount can not be null or empty");
+            throw new ValidationOperationException.BankAccountNotValidException("Request can not be null or empty");
         }
         if (Objects.isNull(request.currency())) {
             throw new ValidationOperationException.BankAccountNotValidException("Account currency can not be null or empty");
         }
-//        if (request.balance().compareTo(BigDecimal.ZERO) < 0) {
-//            throw new ValidationOperationException.BankAccountNotValidException("Account balance can not be less than 0");
-//        }
     }
 
 }

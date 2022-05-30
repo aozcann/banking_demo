@@ -14,7 +14,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Table(name="\"user\"")
+@Table(name = "\"user\"")
 public class User extends BaseExtendedEntity {
     @Column(nullable = false)
     private String name;
@@ -26,7 +26,7 @@ public class User extends BaseExtendedEntity {
     @Transient
     private String fullName = name + " " + surname;
 
-    @Column(nullable = false, unique = true,length = 11)
+    @Column(nullable = false, unique = true, length = 11)
     private Long identityNumber;
 
     @Column(nullable = false)
@@ -59,5 +59,11 @@ public class User extends BaseExtendedEntity {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private Set<DepositAccount> depositAccounts = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+    private Set<BankCard> bankCards = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+    private Set<DebitCard> debitCards = new HashSet<>();
 
 }

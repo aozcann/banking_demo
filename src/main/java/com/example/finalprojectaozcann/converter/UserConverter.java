@@ -1,7 +1,7 @@
 package com.example.finalprojectaozcann.converter;
 
-import com.example.finalprojectaozcann.model.entity.User;
 import com.example.finalprojectaozcann.model.entity.Role;
+import com.example.finalprojectaozcann.model.entity.User;
 import com.example.finalprojectaozcann.model.enums.RoleType;
 import com.example.finalprojectaozcann.model.request.CreateUserRequest;
 import com.example.finalprojectaozcann.model.request.UpdateUserRequest;
@@ -20,7 +20,7 @@ import java.util.Set;
 public class UserConverter {
 
 
-    public User toCreateUser(CreateUserRequest request) {
+    public User toCreateUser(CreateUserRequest request, Long loggedUserId) {
         User user = new User();
         user.setName(request.name());
         user.setSurname(request.surname());
@@ -48,7 +48,7 @@ public class UserConverter {
             roleSet.add(newRole);
         }
         user.setRoles(roleSet);
-        user.setCreatedBy("AhmetOzcan");
+        user.setCreatedBy(loggedUserId.toString());
         user.setCreatedAt(new Date());
 
         return user;
@@ -67,7 +67,7 @@ public class UserConverter {
                 new HashSet<>(user.getRoles()));
     }
 
-    public User toUpdateUser(UpdateUserRequest request, User user) {
+    public User toUpdateUser(UpdateUserRequest request, User user, Long loggedUserId) {
         if (Objects.nonNull(request.name())) {
             user.setName(request.name());
         }
@@ -99,7 +99,7 @@ public class UserConverter {
             //TODO
         }
         user.setUpdatedAt(new Date());
-        user.setUpdatedBy("AhmetOzcan");
+        user.setUpdatedBy(loggedUserId.toString());
         return user;
     }
 

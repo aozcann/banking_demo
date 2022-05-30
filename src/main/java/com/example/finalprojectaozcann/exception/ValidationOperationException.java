@@ -22,4 +22,10 @@ public final class ValidationOperationException {
             super(message);
         }
     }
+
+    public static class BankCardNotValidException extends BaseException {
+        public BankCardNotValidException(String message) {
+            super(message);
+        }
+    }
 }

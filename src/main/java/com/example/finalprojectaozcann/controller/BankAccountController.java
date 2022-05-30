@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/accounts")
@@ -27,17 +29,16 @@ public class BankAccountController {
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping(path = "/checking")
-    public ResponseEntity<?> createCheckingAccount(@RequestBody CreateCheckingAccountRequest request) {
+    public ResponseEntity<?> createCheckingAccount(@RequestBody CreateCheckingAccountRequest request, HttpServletRequest httpServletRequest) {
         createCheckingAccountRequestValidator.validate(request);
-        return ResponseEntity.ok(bankAccountService.createChecking(request));
+        return ResponseEntity.ok(bankAccountService.createChecking(request, httpServletRequest));
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
+    @PreAuthorize("hasAuthority('USER')")
     @PostMapping(path = "/deposit")
-    public ResponseEntity<?> createDepositAccount(@RequestBody CreateDepositAccountRequest request) {
+    public ResponseEntity<?> createDepositAccount(@RequestBody CreateDepositAccountRequest request, HttpServletRequest httpServletRequest) {
         createDepositAccountRequestValidator.validate(request);
-        idValidator.validate(request.UserId());
-        return ResponseEntity.ok(bankAccountService.createDeposit(request));
+        return ResponseEntity.ok(bankAccountService.createDeposit(request, httpServletRequest));
     }
 
 

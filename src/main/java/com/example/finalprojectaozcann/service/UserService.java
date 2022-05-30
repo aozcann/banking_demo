@@ -6,19 +6,20 @@ import com.example.finalprojectaozcann.model.response.CreateUserResponse;
 import com.example.finalprojectaozcann.model.response.GenerateAdminUserResponse;
 import com.example.finalprojectaozcann.model.response.GetUserResponse;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 
 public interface UserService {
 
-    CreateUserResponse create(CreateUserRequest request);
+    CreateUserResponse create(CreateUserRequest request, HttpServletRequest httpServletRequest);
 
     Collection<GetUserResponse> getAllUser();
 
-    GetUserResponse updateUser(UpdateUserRequest request, Long id);
+    GetUserResponse updateUser(UpdateUserRequest request, Long id, HttpServletRequest httpServletRequest);
 
     GetUserResponse getUser(Long id);
 
-    boolean deleteUserById(Long id, boolean isHardDeleted);
+    boolean deleteUserById(Long id, boolean isHardDeleted, HttpServletRequest httpServletRequest);
 
     GenerateAdminUserResponse generateAdminUser();
 }

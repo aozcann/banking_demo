@@ -19,11 +19,13 @@ import com.example.finalprojectaozcann.model.response.GetUserResponse;
 import com.example.finalprojectaozcann.repository.CheckingAccountRepository;
 import com.example.finalprojectaozcann.repository.UserRepository;
 import com.example.finalprojectaozcann.service.UserService;
+import com.example.finalprojectaozcann.utils.JWTDecodeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
@@ -39,15 +41,21 @@ public class UserServiceImpl implements UserService {
     private final UserConverter userConverter;
     private final CheckingAccountRepository checkingAccountRepository;
     private final BankAccountConverter bankAccountConverter;
+    private final JWTDecodeUtil jwtDecodeUtil;
 
-    public CreateUserResponse create(CreateUserRequest request) {
-        User user = userConverter.toCreateUser(request);
+    public CreateUserResponse create(CreateUserRequest request, HttpServletRequest httpServletRequest) {
+
+        Long loggedUserId = jwtDecodeUtil.findUserIdFromJwt(httpServletRequest);
+
+        User user = userConverter.toCreateUser(request, loggedUserId);
         userRepository.save(user);
 
         CheckingAccount checkingAccount = bankAccountConverter.toCreateCheckingAccount(Currency.TRY, user);
         checkingAccountRepository.save(checkingAccount);
         log.info("User created successfully by id -> {}", user.getId());
         log.info("User's first checking account is created by id -> {} ", checkingAccount.getId());
+
+
         return new CreateUserResponse(user.getId());
     }
 
@@ -63,10 +71,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public GetUserResponse updateUser(UpdateUserRequest request, Long id) throws BaseException {
+    public GetUserResponse updateUser(UpdateUserRequest request, Long id, HttpServletRequest httpServletRequest) throws BaseException {
+
+        Long loggedUserId = jwtDecodeUtil.findUserIdFromJwt(httpServletRequest);
+
         User user = userRepository.findByIdAndIsDeleted(id, false)
                 .orElseThrow(() -> new BusinessServiceOperationException.UserNotFoundException("User not found"));
-        User updateUser = userConverter.toUpdateUser(request, user);
+        User updateUser = userConverter.toUpdateUser(request, user, loggedUserId);
         userRepository.save(updateUser);
         log.info("User updated successfully by id -> {}", user.getId());
         return userConverter.toGetUserResponse(user);
@@ -82,7 +93,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean deleteUserById(Long id, boolean isHardDeleted) throws BaseException {
+    public boolean deleteUserById(Long id, boolean isHardDeleted, HttpServletRequest httpServletRequest) throws BaseException {
+
+        Long loggedUserId = jwtDecodeUtil.findUserIdFromJwt(httpServletRequest);
+
         User user = userRepository
                 .findById(id)
                 .orElseThrow(() -> new BusinessServiceOperationException.UserNotFoundException("User not found."));
@@ -98,7 +112,7 @@ public class UserServiceImpl implements UserService {
         user.setDeleted(true);
         //TODO rol ve account delete eklenecek
         user.setDeletedAt(new Date());
-        user.setDeletedBy("AhmetOzcan");
+        user.setDeletedBy(loggedUserId.toString());
         userRepository.save(user);
         log.info("User soft deleted successfully by id -> {}", user.getId());
 

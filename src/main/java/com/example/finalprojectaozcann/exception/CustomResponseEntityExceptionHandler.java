@@ -16,4 +16,9 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(BaseException.class)
+    public final ResponseEntity<String> BusinessServiceOperationException(BaseException message) {
+        return ResponseEntity.badRequest().body(message.getMessage());
+    }
+
 }

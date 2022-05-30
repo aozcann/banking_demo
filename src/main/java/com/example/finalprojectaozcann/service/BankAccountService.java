@@ -4,10 +4,12 @@ import com.example.finalprojectaozcann.model.request.CreateCheckingAccountReques
 import com.example.finalprojectaozcann.model.request.CreateDepositAccountRequest;
 import com.example.finalprojectaozcann.model.response.GetBankAccountResponse;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface BankAccountService {
 
 
-    GetBankAccountResponse createChecking(CreateCheckingAccountRequest request);
+    GetBankAccountResponse createChecking(CreateCheckingAccountRequest request, HttpServletRequest httpServletRequest);
 
-    GetBankAccountResponse createDeposit(CreateDepositAccountRequest request);
+    GetBankAccountResponse createDeposit(CreateDepositAccountRequest request, HttpServletRequest httpServletRequest);
 }
