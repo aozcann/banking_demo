@@ -26,8 +26,8 @@ public class TransferToAccountRequestValidator implements Validator<TransferToAc
         if (request.amount().compareTo(ZERO) <= 0) {
             throw new ValidationOperationException.TransferRequestNotValid("Amount can not be less than 0");
         }
-        if (!(StringUtils.hasLength(request.transferDate()))) {
-            throw new ValidationOperationException.TransferRequestNotValid("Transfer date can not be null or empty");
-        }
+//        if (!(StringUtils.hasLength(request.transferDate()))) {
+//            throw new ValidationOperationException.TransferRequestNotValid("Transfer date can not be null or empty");
+//        }
     }
 }
