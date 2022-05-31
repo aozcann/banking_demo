@@ -28,4 +28,10 @@ public final class ValidationOperationException {
             super(message);
         }
     }
+
+    public static class TransferRequestNotValid extends BaseException {
+        public TransferRequestNotValid(String message) {
+            super(message);
+        }
+    }
 }

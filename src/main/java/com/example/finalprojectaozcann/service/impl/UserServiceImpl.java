@@ -50,6 +50,9 @@ public class UserServiceImpl implements UserService {
         User user = userConverter.toCreateUser(request, loggedUserId);
         userRepository.save(user);
 
+//        Geçmişteki ahmetten gelecekte ahmete kolay gelsin dilekleri sen yaparsın KRal Aslan mucuk <3 seviyorum seni :D
+        //TODO bank card create
+
         CheckingAccount checkingAccount = bankAccountConverter.toCreateCheckingAccount(Currency.TRY, user);
         checkingAccountRepository.save(checkingAccount);
         log.info("User created successfully by id -> {}", user.getId());

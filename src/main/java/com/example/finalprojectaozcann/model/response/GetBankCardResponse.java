@@ -9,7 +9,7 @@ public record GetBankCardResponse(String name,
                                   String surname,
                                   CardType cardType,
                                   String cardNumber,
-                                  LocalDate expiryDate,
+                                  String expiryDate,
                                   String ccv,
                                   BigDecimal balance,
                                   String firstPassword) {

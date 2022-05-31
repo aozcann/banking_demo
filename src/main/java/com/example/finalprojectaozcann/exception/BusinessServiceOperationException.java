@@ -1,7 +1,6 @@
 package com.example.finalprojectaozcann.exception;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public final class BusinessServiceOperationException {
@@ -44,4 +43,10 @@ public final class BusinessServiceOperationException {
         }
     }
 
+    public static class DebitCardNotFoundException extends BaseException {
+        public DebitCardNotFoundException(String message) {
+            super(message);
+        }
+
+    }
 }

@@ -4,9 +4,13 @@ import com.example.finalprojectaozcann.converter.CardConverter;
 import com.example.finalprojectaozcann.exception.BusinessServiceOperationException;
 import com.example.finalprojectaozcann.model.entity.BankCard;
 import com.example.finalprojectaozcann.model.entity.CheckingAccount;
+import com.example.finalprojectaozcann.model.entity.DebitCard;
 import com.example.finalprojectaozcann.model.entity.User;
+import com.example.finalprojectaozcann.model.enums.CardType;
 import com.example.finalprojectaozcann.model.request.CreateCardRequest;
+import com.example.finalprojectaozcann.model.request.DebitCardDeptInquiryRequest;
 import com.example.finalprojectaozcann.model.response.GetBankCardResponse;
+import com.example.finalprojectaozcann.model.response.GetDebitCardDeptInquiryResponse;
 import com.example.finalprojectaozcann.model.response.GetDebitCardResponse;
 import com.example.finalprojectaozcann.repository.BankCardRepository;
 import com.example.finalprojectaozcann.repository.CheckingAccountRepository;
@@ -40,20 +44,42 @@ public class CardServiceImpl implements CardService {
         }
 
         Long userId = jwtDecodeUtil.findUserIdFromJwt(httpServletRequest);
-        User user = userRepository.findByIdAndIsDeleted(userId, false)
-                .orElseThrow(() -> new BusinessServiceOperationException.UserNotFoundException("User not found"));
-        CheckingAccount checkingAccount = checkingAccountRepository
-                .findByAccountNumberAndIsDeleted(request.accountNumber(), false)
-                .orElseThrow(() -> new BusinessServiceOperationException.AccountNotFoundException("Account not found"));
-
-
-        BankCard bankCard = cardConverter.toCreateBankCard(request, user, checkingAccount);
+        User user = findByIdAndIsDeleted(userId);
+        CheckingAccount checkingAccount = findByAccountNumberAndIsDeleted(request.accountNumber());
+        BankCard bankCard = cardConverter.toCreateBankCard(user, checkingAccount);
         bankCardRepository.save(bankCard);
-        return cardConverter.toBankCardToBankCardResponse(bankCard);
+        return cardConverter.toBankCardResponse(bankCard, checkingAccount.getBalance());
     }
 
     @Override
     public GetDebitCardResponse createDebitCard(CreateCardRequest request, HttpServletRequest httpServletRequest) {
-        return null; // TODO tamammla
+
+        Long userId = jwtDecodeUtil.findUserIdFromJwt(httpServletRequest);
+        User user = findByIdAndIsDeleted(userId);
+        CheckingAccount checkingAccount = findByAccountNumberAndIsDeleted(request.accountNumber());
+        DebitCard debitCard = cardConverter.toCreateDebitCard(user, checkingAccount);
+        debitCardRepository.save(debitCard);
+        return cardConverter.toDebitCardResponse(debitCard);
     }
+
+    @Override
+    public GetDebitCardDeptInquiryResponse getInquiryDebitCard(DebitCardDeptInquiryRequest request, HttpServletRequest httpServletRequest) {
+        DebitCard debitCard = debitCardRepository.findByCardNumberAndCardType(request.debitCardNumber(), CardType.DEBIT_CARD)
+                .orElseThrow(() -> new BusinessServiceOperationException.DebitCardNotFoundException("Debit card not found"));
+        return cardConverter.toGetDebitCardDeptInquiryResponse(debitCard);
+    }
+
+
+    public User findByIdAndIsDeleted(Long userId) {
+        return userRepository.findByIdAndIsDeleted(userId, false)
+                .orElseThrow(() -> new BusinessServiceOperationException.UserNotFoundException("User not found"));
+    }
+
+    public CheckingAccount findByAccountNumberAndIsDeleted(String accountNumber) {
+        return checkingAccountRepository
+                .findByAccountNumberAndIsDeleted(accountNumber, false)
+                .orElseThrow(() -> new BusinessServiceOperationException.AccountNotFoundException("Account not found"));
+    }
+
+
 }

@@ -14,9 +14,9 @@ import java.time.LocalDate;
 @Getter
 @Entity
 public class BankCard extends BaseCard {
-
-    @Column(nullable = false)
-    private BigDecimal balance;
+//
+//    @Column(nullable = false)
+//    private BigDecimal balance;
 
     @OneToOne
     private CheckingAccount checkingAccount;

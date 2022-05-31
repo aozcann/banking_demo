@@ -20,4 +20,6 @@ public class DebitCard extends BaseCard {
     @JoinColumn(name = "checkingAccount_id")
     private CheckingAccount checkingAccount;
 
+    private BigDecimal dept = BigDecimal.ZERO;
+
 }
