@@ -1,21 +1,24 @@
 package com.example.finalprojectaozcann.model.base;
 
+import com.example.finalprojectaozcann.model.entity.User;
 import com.example.finalprojectaozcann.model.enums.AccountStatus;
 import com.example.finalprojectaozcann.model.enums.AccountType;
 import com.example.finalprojectaozcann.model.enums.Currency;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Setter
 @Getter
 @MappedSuperclass
 public abstract class BaseBankAccount extends BaseExtendedEntity {
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private AccountType accountType;

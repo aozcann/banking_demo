@@ -6,7 +6,6 @@ import com.example.finalprojectaozcann.model.entity.BankCard;
 import com.example.finalprojectaozcann.model.entity.CheckingAccount;
 import com.example.finalprojectaozcann.model.entity.DebitCard;
 import com.example.finalprojectaozcann.model.entity.User;
-import com.example.finalprojectaozcann.model.enums.CardType;
 import com.example.finalprojectaozcann.model.request.CreateCardRequest;
 import com.example.finalprojectaozcann.model.request.DebitCardDeptInquiryRequest;
 import com.example.finalprojectaozcann.model.response.GetBankCardResponse;
@@ -64,7 +63,7 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public GetDebitCardDeptInquiryResponse getInquiryDebitCard(DebitCardDeptInquiryRequest request, HttpServletRequest httpServletRequest) {
-        DebitCard debitCard = debitCardRepository.findByCardNumberAndCardType(request.debitCardNumber(), CardType.DEBIT_CARD)
+        DebitCard debitCard = debitCardRepository.findByCardNumberAndIsDeleted(request.debitCardNumber(), false)
                 .orElseThrow(() -> new BusinessServiceOperationException.DebitCardNotFoundException("Debit card not found"));
         return cardConverter.toGetDebitCardDeptInquiryResponse(debitCard);
     }

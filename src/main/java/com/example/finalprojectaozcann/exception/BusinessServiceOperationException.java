@@ -14,11 +14,6 @@ public final class BusinessServiceOperationException {
         }
     }
 
-//    @ExceptionHandler(BusinessServiceOperationException.BankCardAlreadyExist.class)
-//    public final ResponseEntity<?> BusinessServiceOperationException() {
-//        return new ResponseEntity<>("deneme", HttpStatus.FORBIDDEN);
-//    }
-
     public static class UserNotFoundException extends BaseException {
         public UserNotFoundException(String message) {
             super(message);
@@ -49,4 +44,17 @@ public final class BusinessServiceOperationException {
         }
 
     }
+
+    public static class AmountCanNotBiggerThanBalanceException extends BaseException {
+        public AmountCanNotBiggerThanBalanceException(String message) {
+            super(message);
+        }
+    }
+
+    public static class UserCanNotTransferException extends BaseException {
+        public UserCanNotTransferException(String message) {
+            super(message);
+        }
+    }
 }
+

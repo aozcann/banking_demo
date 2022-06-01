@@ -81,7 +81,7 @@ public class CardConverter {
         return new GetDebitCardDeptInquiryResponse(debitCard.getCardNumber(),
                 debitCard.getCardLimit(),
                 debitCard.getDept(),
-                debitCard.getCardLimit().subtract(debitCard.getDept()).toString());
+                debitCard.getExpendableAmount());
 
     }
 

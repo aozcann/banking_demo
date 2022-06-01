@@ -13,9 +13,6 @@ import java.util.Set;
 @Getter
 public class CheckingAccount extends BaseBankAccount {
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private BankCard bankCard;

@@ -7,18 +7,30 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Currency;
 
 @Entity
 @Getter
 @Setter
 public class TransferHistory extends BaseEntity {
 
+    private String senderAccountType;
+
     private Long senderId;
 
+    private String senderIban;
+
+    private String senderCurrency;
+
     private Long receiverId;
+
+    private String receiverIban;
+
+    private String receiverCurrency;
+
+    private String receiverDebitCardNumber;
+
+    //TODO isimlendirme düşünülecek
+    private String receiverType;
 
     private BigDecimal transferAmount;
 
@@ -26,7 +38,6 @@ public class TransferHistory extends BaseEntity {
 
     private String description;
 
-    //TODO currency type eklenecek
-//    private Collection<Currency> currencies = new ArrayList<>();
+    private BigDecimal currencyRate;
 
 }

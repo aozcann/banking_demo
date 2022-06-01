@@ -5,7 +5,9 @@ import com.example.finalprojectaozcann.model.enums.Maturity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.math.BigDecimal;
 
 @Entity
@@ -18,9 +20,5 @@ public class DepositAccount extends BaseBankAccount {
     private BigDecimal interestRate;
 
     private BigDecimal balanceWithInterest;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
 }

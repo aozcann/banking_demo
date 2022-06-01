@@ -5,5 +5,5 @@ import java.math.BigDecimal;
 public record GetDebitCardDeptInquiryResponse(String cardNumber,
                                               BigDecimal cardLimit,
                                               BigDecimal totalDept,
-                                              String expendableAmount) {
+                                              BigDecimal expendableAmount) {
 }
