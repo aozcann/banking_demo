@@ -4,7 +4,10 @@ import com.example.finalprojectaozcann.model.base.BaseBankAccount;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +15,6 @@ import java.util.Set;
 @Setter
 @Getter
 public class CheckingAccount extends BaseBankAccount {
-
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private BankCard bankCard;

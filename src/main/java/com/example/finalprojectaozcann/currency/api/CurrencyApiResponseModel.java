@@ -11,8 +11,6 @@ import java.util.HashMap;
 public class CurrencyApiResponseModel {
 
     private String base;
-
     private HashMap<String, BigDecimal> rates = new HashMap<>();
-
 
 }

@@ -1,5 +1,6 @@
 package com.example.finalprojectaozcann.validator;
 
+import com.example.finalprojectaozcann.config.Constants;
 import com.example.finalprojectaozcann.exception.BaseValidationException;
 import com.example.finalprojectaozcann.exception.ValidationOperationException;
 import com.example.finalprojectaozcann.model.request.DebitCardDeptInquiryRequest;
@@ -13,10 +14,10 @@ public class DebitCardDeptInquiryRequestValidator implements Validator<DebitCard
     @Override
     public void validate(DebitCardDeptInquiryRequest request) throws BaseValidationException {
         if (Objects.isNull(request)) {
-            throw new ValidationOperationException.BankCardNotValidException("Request can not be null or empty");
+            throw new ValidationOperationException.BankCardNotValidException(Constants.ValidationErrorMessage.REQUEST_CAN_NOT_BE_NULL_OR_EMPTY);
         }
         if (!(StringUtils.hasLength(request.debitCardNumber()))) {
-            throw new ValidationOperationException.BankCardNotValidException("Debit card number can not be null or empty");
+            throw new ValidationOperationException.BankCardNotValidException(Constants.ValidationErrorMessage.DEBIT_CARD_NUMBER_CAN_NOT_BE_NULL_OR_EMPTY);
         }
     }
 }

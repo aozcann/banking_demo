@@ -1,4 +1,3 @@
-
 package com.example.finalprojectaozcann.model.entity;
 
 import com.example.finalprojectaozcann.model.base.BaseCard;

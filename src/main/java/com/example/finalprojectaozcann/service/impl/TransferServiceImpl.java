@@ -1,23 +1,20 @@
 package com.example.finalprojectaozcann.service.impl;
 
+import com.example.finalprojectaozcann.config.Constants;
 import com.example.finalprojectaozcann.converter.TransferConverter;
 import com.example.finalprojectaozcann.currency.api.CurrencyApi;
 import com.example.finalprojectaozcann.exception.BusinessServiceOperationException;
 import com.example.finalprojectaozcann.model.base.BaseBankAccount;
-import com.example.finalprojectaozcann.model.entity.CheckingAccount;
-import com.example.finalprojectaozcann.model.entity.DebitCard;
-import com.example.finalprojectaozcann.model.entity.DepositAccount;
-import com.example.finalprojectaozcann.model.entity.TransferHistory;
+import com.example.finalprojectaozcann.model.entity.*;
 import com.example.finalprojectaozcann.model.enums.AccountStatus;
 import com.example.finalprojectaozcann.model.enums.Currency;
+import com.example.finalprojectaozcann.model.request.TransferATMToCardRequest;
 import com.example.finalprojectaozcann.model.request.TransferCheckingAccountToDebitCardRequest;
 import com.example.finalprojectaozcann.model.request.TransferToAccountRequest;
+import com.example.finalprojectaozcann.model.response.SuccessATMTransferResponse;
 import com.example.finalprojectaozcann.model.response.SuccessAccountTransferResponse;
 import com.example.finalprojectaozcann.model.response.SuccessCardTransferResponse;
-import com.example.finalprojectaozcann.repository.CheckingAccountRepository;
-import com.example.finalprojectaozcann.repository.DebitCardRepository;
-import com.example.finalprojectaozcann.repository.DepositAccountRepository;
-import com.example.finalprojectaozcann.repository.TransferHistoryRepository;
+import com.example.finalprojectaozcann.repository.*;
 import com.example.finalprojectaozcann.service.TransferService;
 import com.example.finalprojectaozcann.utils.JWTDecodeUtil;
 import lombok.RequiredArgsConstructor;
@@ -42,8 +39,9 @@ public class TransferServiceImpl implements TransferService {
     private final JWTDecodeUtil jwtDecodeUtil;
     private final TransferConverter transferConverter;
     private final DebitCardRepository debitCardRepository;
+    private final BankCardRepository bankCardRepository;
 
-    //TODO transferDate format ayarlanacak
+    //TODO transferDate format ayarlanacak , date
     @Override
     public SuccessAccountTransferResponse transferCheckingToDeposit(TransferToAccountRequest request,
                                                                     HttpServletRequest httpServletRequest) {
@@ -52,6 +50,13 @@ public class TransferServiceImpl implements TransferService {
         CheckingAccount senderAccount = getCheckingAccountByIban(request.senderIban());
         checkLoggerEqualSender(loggedUserId, senderAccount.getUser().getId());
         DepositAccount receiverAccount = getDepositAccountByIban(request.receiverIban());
+
+        //TODO job yapılacak
+//        if (!(DateUtil.dateFormatStringToLocalDate(request.transferDate()).equals(LocalDate.now()))) {
+//
+//            List<BigDecimal> amountAndCurrencyRate = setSenderAndReceiverAccountsLockedBalance(request.amount(),
+//                    senderAccount, receiverAccount);
+//        }
 
         List<BigDecimal> amountAndCurrencyRate = setSenderAndReceiverAccountsBalance(request.amount(),
                 senderAccount, receiverAccount);
@@ -152,16 +157,76 @@ public class TransferServiceImpl implements TransferService {
 
         TransferHistory transferHistory = transferConverter.createTransferHistoryForCard(amount, receiverCard,
                 senderAccount, request.description(), currencyRate);
+        transferHistoryRepository.save(transferHistory);
 
         return transferConverter.toSuccessCardTransferResponse(amount, receiverCard, senderAccount, currencyRate,
                 transferHistory.getTransferDate());
 
     }
 
+    @Override
+    public SuccessATMTransferResponse transferATMToDebitCard(TransferATMToCardRequest request, HttpServletRequest httpServletRequest) {
+        Long loggedUserId = jwtDecodeUtil.findUserIdFromJwt(httpServletRequest);
+
+        DebitCard debitCard = debitCardRepository.findByCardNumberAndIsDeleted(request.cardNumber(), false)
+                .orElseThrow(() -> new BusinessServiceOperationException
+                        .DebitCardNotFoundException(Constants.ErrorMessage.DEBIT_CARD_NOT_FOUND));
+        String password = request.password();
+
+        if (!(password.equals(debitCard.getPassword()))) {
+            throw new BusinessServiceOperationException
+                    .CardPasswordIsWrongException(Constants.ErrorMessage.CARD_PASSWORD_IS_WRONG);
+        }
+
+        BigDecimal amount = request.amount();
+
+        debitCard.setDept(debitCard.getDept().subtract(amount));
+        debitCardRepository.save(debitCard);
+
+        TransferHistory transferHistory = transferConverter.createATMTransferToCard(loggedUserId, debitCard, amount);
+        transferHistoryRepository.save(transferHistory);
+
+        return transferConverter.toSuccessATMTransferResponse(amount, debitCard);
+
+    }
+
+    @Override
+    public SuccessATMTransferResponse transferATMToBankCard(TransferATMToCardRequest request, HttpServletRequest httpServletRequest) {
+        Long loggedUserId = jwtDecodeUtil.findUserIdFromJwt(httpServletRequest);
+
+        BankCard bankCard = bankCardRepository.findByCardNumberAndIsDeleted(request.cardNumber(), false)
+                .orElseThrow(() -> new BusinessServiceOperationException
+                        .BankCardNotFoundException(Constants.ErrorMessage.BANK_CARD_NOT_FOUND));
+        String password = request.password();
+
+        if (!(password.equals(bankCard.getPassword()))) {
+            throw new BusinessServiceOperationException
+                    .CardPasswordIsWrongException(Constants.ErrorMessage.CARD_PASSWORD_IS_WRONG);
+        }
+
+        BigDecimal amount = request.amount();
+
+        CheckingAccount checkingAccount = bankCard.getCheckingAccount();
+        checkingAccount.setBalance(amount);
+        checkingAccountRepository.save(checkingAccount);
+
+        TransferHistory transferHistory = transferConverter.createATMTransferToCard(loggedUserId, bankCard, amount);
+        transferHistoryRepository.save(transferHistory);
+
+        return transferConverter.toSuccessATMTransferResponse(amount, bankCard);
+    }
+
     private DebitCard getDebitCardByCardNumber(String cardNumber) {
         return debitCardRepository.findByCardNumberAndIsDeleted(cardNumber, false)
-                .orElseThrow(() -> new BusinessServiceOperationException.DebitCardNotFoundException("Debit card not found"));
+                .orElseThrow(() -> new BusinessServiceOperationException
+                        .DebitCardNotFoundException(Constants.ErrorMessage.DEBIT_CARD_NOT_FOUND));
     }
+
+
+//    private List<BigDecimal> setSenderAndReceiverAccountsLockedBalance(BigDecimal amount, CheckingAccount senderAccount,
+//                                                                       DepositAccount receiverAccount) {
+//
+//    }
 
     private List<BigDecimal> setSenderAndReceiverAccountsBalance(BigDecimal amount, BaseBankAccount senderAccount,
                                                                  BaseBankAccount receiverAccount) {
@@ -184,7 +249,7 @@ public class TransferServiceImpl implements TransferService {
                                                                  DepositAccount senderAccount) {
         if (!(receiverAccount.getUser().equals(senderAccount.getUser()))) {
             throw new BusinessServiceOperationException
-                    .UserCanNotTransferException("Deposit account can only be transferred to the same account owned by the user");
+                    .UserCanNotTransferException(Constants.ErrorMessage.DEPOSIT_ACCOUNT_CAN_ONLY_BE_TRANSFERRED_TO_THE_SAME_ACCOUNT_OWNED_BY_THE_USER);
         }
     }
 
@@ -192,29 +257,27 @@ public class TransferServiceImpl implements TransferService {
         return checkingAccountRepository
                 .findByIbanAndIsDeletedAndAccountStatus(iban, false, AccountStatus.ACTIVE)
                 .orElseThrow(() -> new BusinessServiceOperationException
-                        .AccountNotFoundException("Checking account not found"));
+                        .AccountNotFoundException(Constants.ErrorMessage.CHECKING_ACCOUNT_NOT_FOUND));
     }
-
 
     private DepositAccount getDepositAccountByIban(String iban) {
         return depositAccountRepository
                 .findByIbanAndIsDeletedAndAccountStatus(iban, false, AccountStatus.ACTIVE)
                 .orElseThrow(() -> new BusinessServiceOperationException
-                        .AccountNotFoundException("Deposit account not found."));
-
+                        .AccountNotFoundException(Constants.ErrorMessage.DEPOSIT_ACCOUNT_NOT_FOUND));
     }
 
     private void checkLoggerEqualSender(Long loggerId, Long senderId) {
         if (!(loggerId.equals(senderId))) {
             throw new BusinessServiceOperationException
-                    .UserCanNotTransferException("User only can be sent transfer with own account");
+                    .UserCanNotTransferException(Constants.ErrorMessage.USER_ONLY_CAN_BE_SENT_TRANSFER_WITH_OWN_ACCOUNT);
         }
     }
 
     private void compareAmountToSenderAccountBalance(BigDecimal amount, BigDecimal accountBalance) {
         if (amount.compareTo(accountBalance) > 0) {
             throw new BusinessServiceOperationException
-                    .AmountCanNotBiggerThanBalanceException("Amount can not be bigger than sender account balance");
+                    .AmountCanNotBiggerThanBalanceException(Constants.ErrorMessage.AMOUNT_CAN_NOT_BE_BIGGER_THAN_SENDER_ACCOUNT_BALANCE);
         }
     }
 

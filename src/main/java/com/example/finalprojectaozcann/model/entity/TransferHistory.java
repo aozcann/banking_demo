@@ -29,7 +29,6 @@ public class TransferHistory extends BaseEntity {
 
     private String receiverDebitCardNumber;
 
-    //TODO isimlendirme düşünülecek
     private String receiverType;
 
     private BigDecimal transferAmount;

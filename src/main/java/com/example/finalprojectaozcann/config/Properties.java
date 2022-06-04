@@ -16,5 +16,4 @@ public class Properties {
     @Value("${jwt.expires-in}")
     private long expiresIn;
 
-
 }

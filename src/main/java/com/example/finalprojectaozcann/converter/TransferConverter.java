@@ -1,9 +1,11 @@
 package com.example.finalprojectaozcann.converter;
 
 import com.example.finalprojectaozcann.model.base.BaseBankAccount;
+import com.example.finalprojectaozcann.model.base.BaseCard;
 import com.example.finalprojectaozcann.model.entity.CheckingAccount;
 import com.example.finalprojectaozcann.model.entity.DebitCard;
 import com.example.finalprojectaozcann.model.entity.TransferHistory;
+import com.example.finalprojectaozcann.model.response.SuccessATMTransferResponse;
 import com.example.finalprojectaozcann.model.response.SuccessAccountTransferResponse;
 import com.example.finalprojectaozcann.model.response.SuccessCardTransferResponse;
 import org.springframework.stereotype.Component;
@@ -13,7 +15,6 @@ import java.time.LocalDate;
 
 @Component
 public class TransferConverter {
-    //TODO isimlendirmeye tekrar bak
     public TransferHistory createTransferHistoryForAccount(BaseBankAccount senderAccount, BaseBankAccount receiverAccount,
                                                            BigDecimal amount, BigDecimal currencyRate, String description) {
 
@@ -72,5 +73,23 @@ public class TransferConverter {
                 receiverCard.getName(),
                 senderAccount.getUser().getName(),
                 currencyRate);
+    }
+
+    public SuccessATMTransferResponse toSuccessATMTransferResponse(BigDecimal amount, BaseCard card) {
+        return new SuccessATMTransferResponse(card.getCardNumber(), amount, LocalDate.now());
+    }
+
+    public TransferHistory createATMTransferToCard(Long loggedUserıd, BaseCard card, BigDecimal amount) {
+        TransferHistory transferHistory = new TransferHistory();
+    transferHistory.setSenderAccountType("ATM");
+    transferHistory.setSenderId(loggedUserıd);
+    transferHistory.setReceiverDebitCardNumber(card.getCardNumber());
+    transferHistory.setReceiverId(card.getId());
+    transferHistory.setReceiverType(card.getCardType().toString());
+    transferHistory.setTransferDate(LocalDate.now());
+    transferHistory.setTransferAmount(amount);
+
+    return transferHistory;
+
     }
 }

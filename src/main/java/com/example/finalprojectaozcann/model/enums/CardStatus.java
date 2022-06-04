@@ -1,6 +1,6 @@
 package com.example.finalprojectaozcann.model.enums;
 
-public enum AccountStatus {
+public enum CardStatus {
     ACTIVE,
     PASSIVE,
     BLOCKED

@@ -1,5 +1,6 @@
 package com.example.finalprojectaozcann.service.impl;
 
+import com.example.finalprojectaozcann.config.Constants;
 import com.example.finalprojectaozcann.converter.CardConverter;
 import com.example.finalprojectaozcann.exception.BusinessServiceOperationException;
 import com.example.finalprojectaozcann.model.entity.BankCard;
@@ -39,7 +40,7 @@ public class CardServiceImpl implements CardService {
     public GetBankCardResponse createBankCard(CreateCardRequest request, HttpServletRequest httpServletRequest) {
 
         if (bankCardRepository.findByAndCheckingAccount_AccountNumber(request.accountNumber()).isPresent()) {
-            throw new BusinessServiceOperationException.BankCardAlreadyExist("One checking account can only have a bank card");
+            throw new BusinessServiceOperationException.BankCardAlreadyExist(Constants.ErrorMessage.ONE_CHECKING_ACCOUNT_CAN_ONLY_HAVE_A_BANK_CARD);
         }
 
         Long userId = jwtDecodeUtil.findUserIdFromJwt(httpServletRequest);
@@ -64,20 +65,19 @@ public class CardServiceImpl implements CardService {
     @Override
     public GetDebitCardDeptInquiryResponse getInquiryDebitCard(DebitCardDeptInquiryRequest request, HttpServletRequest httpServletRequest) {
         DebitCard debitCard = debitCardRepository.findByCardNumberAndIsDeleted(request.debitCardNumber(), false)
-                .orElseThrow(() -> new BusinessServiceOperationException.DebitCardNotFoundException("Debit card not found"));
+                .orElseThrow(() -> new BusinessServiceOperationException.DebitCardNotFoundException(Constants.ErrorMessage.DEBIT_CARD_NOT_FOUND));
         return cardConverter.toGetDebitCardDeptInquiryResponse(debitCard);
     }
 
-
     public User findByIdAndIsDeleted(Long userId) {
         return userRepository.findByIdAndIsDeleted(userId, false)
-                .orElseThrow(() -> new BusinessServiceOperationException.UserNotFoundException("User not found"));
+                .orElseThrow(() -> new BusinessServiceOperationException.UserNotFoundException(Constants.ErrorMessage.USER_NOT_FOUND));
     }
 
     public CheckingAccount findByAccountNumberAndIsDeleted(String accountNumber) {
         return checkingAccountRepository
                 .findByAccountNumberAndIsDeleted(accountNumber, false)
-                .orElseThrow(() -> new BusinessServiceOperationException.AccountNotFoundException("Account not found"));
+                .orElseThrow(() -> new BusinessServiceOperationException.AccountNotFoundException(Constants.ErrorMessage.ACCOUNT_NOT_FOUND));
     }
 
 

@@ -6,11 +6,10 @@ import com.example.finalprojectaozcann.model.enums.RoleType;
 import com.example.finalprojectaozcann.model.request.CreateUserRequest;
 import com.example.finalprojectaozcann.model.request.UpdateUserRequest;
 import com.example.finalprojectaozcann.model.response.GetUserResponse;
+import com.example.finalprojectaozcann.utils.DateUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
@@ -19,15 +18,13 @@ import java.util.Set;
 @Component
 public class UserConverter {
 
-
     public User toCreateUser(CreateUserRequest request, Long loggedUserId) {
         User user = new User();
         user.setName(request.name());
         user.setSurname(request.surname());
         user.setIdentityNumber(request.identityNumber());
 
-
-        user.setBirthday(dateFormat(request.birthday()));
+        user.setBirthday(DateUtil.dateFormatStringToLocalDate(request.birthday()));
         user.setPhoneNumber(request.phoneNumber());
         user.setAddress(request.address());
         user.setEmail(request.email());
@@ -36,28 +33,15 @@ public class UserConverter {
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setUserType(request.userType());
 
-        Set<Role> roleSet = new HashSet<>();
-        for (RoleType role : request.roles()) {
-            Role newRole = new Role();
-            if (role.equals(RoleType.ADMIN)) {
-                newRole.setName(RoleType.ADMIN.toString());
-            }
-            if (role.equals(RoleType.USER)) {
-                newRole.setName(RoleType.USER.toString());
-            }
-            roleSet.add(newRole);
-        }
-        user.setRoles(roleSet);
+        user.setRoles(createRoleForUser(request.roles()));
         user.setCreatedBy(loggedUserId.toString());
         user.setCreatedAt(new Date());
 
         return user;
-
     }
 
     public GetUserResponse toGetUserResponse(User user) {
         return new GetUserResponse(user.getId(),
-                user.getFullName(),
                 user.getIdentityNumber(),
                 user.getBirthday(),
                 user.getPhoneNumber(),
@@ -78,7 +62,7 @@ public class UserConverter {
             user.setIdentityNumber(request.identityNumber());
         }
         if (Objects.nonNull(request.birthday())) {
-            user.setBirthday(dateFormat(request.birthday()));
+            user.setBirthday(DateUtil.dateFormatStringToLocalDate(request.birthday()));
         }
         if (Objects.nonNull(request.phoneNumber())) {
             user.setPhoneNumber(request.phoneNumber());
@@ -96,16 +80,26 @@ public class UserConverter {
             user.setUserType(request.userType());
         }
         if (Objects.nonNull(request.roles())) {
-            //TODO
+            user.setRoles(createRoleForUser(request.roles()));
         }
         user.setUpdatedAt(new Date());
         user.setUpdatedBy(loggedUserId.toString());
         return user;
     }
 
-    public LocalDate dateFormat(String birthday) {
-        DateTimeFormatter f = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        LocalDate ld = LocalDate.parse(birthday, f);
-        return ld;
+    public Set<Role> createRoleForUser(Set<RoleType> roles) {
+        Set<Role> roleSet = new HashSet<>();
+        for (RoleType role : roles) {
+            Role newRole = new Role();
+            if (role.equals(RoleType.ADMIN)) {
+                newRole.setName(RoleType.ADMIN.toString());
+            }
+            if (role.equals(RoleType.USER)) {
+                newRole.setName(RoleType.USER.toString());
+            }
+            roleSet.add(newRole);
+        }
+        return roleSet;
     }
+
 }

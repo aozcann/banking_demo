@@ -70,5 +70,4 @@ public class UserController {
         return ResponseEntity.ok(userService.deleteUserById(id, isHardDeleted, httpServletRequest));
     }
 
-
 }

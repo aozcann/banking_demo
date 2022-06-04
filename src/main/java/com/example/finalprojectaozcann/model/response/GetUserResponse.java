@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.util.Set;
 
 public record GetUserResponse(Long id,
-                              String fullName,
                               Long identityNumber,
                               LocalDate birthday,
                               String phoneNumber,

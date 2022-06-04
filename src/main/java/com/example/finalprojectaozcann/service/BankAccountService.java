@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface BankAccountService {
 
-
     GetBankAccountResponse createChecking(CreateCheckingAccountRequest request, HttpServletRequest httpServletRequest);
 
     GetBankAccountResponse createDeposit(CreateDepositAccountRequest request, HttpServletRequest httpServletRequest);

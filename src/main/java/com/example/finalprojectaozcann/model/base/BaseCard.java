@@ -1,6 +1,7 @@
 package com.example.finalprojectaozcann.model.base;
 
 import com.example.finalprojectaozcann.model.entity.User;
+import com.example.finalprojectaozcann.model.enums.CardStatus;
 import com.example.finalprojectaozcann.model.enums.CardType;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +34,10 @@ public class BaseCard extends BaseExtendedEntity {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private CardStatus cardStatus;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

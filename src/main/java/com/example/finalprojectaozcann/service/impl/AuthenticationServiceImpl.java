@@ -21,10 +21,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-
     private final AuthenticationManager authenticationManager;
     private final JWTHelper jwtHelper;
-
 
     @Override
     public LoginResponse login(LoginRequest request) {

@@ -19,9 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/api/accounts")
 public class BankAccountController {
 
-    //TODO admin create account
-
-
     private final Validator<CreateCheckingAccountRequest> createCheckingAccountRequestValidator;
     private final Validator<CreateDepositAccountRequest> createDepositAccountRequestValidator;
     private final Validator<Long> idValidator;

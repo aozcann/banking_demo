@@ -42,7 +42,6 @@ public final class BusinessServiceOperationException {
         public DebitCardNotFoundException(String message) {
             super(message);
         }
-
     }
 
     public static class AmountCanNotBiggerThanBalanceException extends BaseException {
@@ -56,5 +55,25 @@ public final class BusinessServiceOperationException {
             super(message);
         }
     }
+
+    public static class CardPasswordIsWrongException extends BaseException {
+        public CardPasswordIsWrongException(String message) {
+            super(message);
+        }
+    }
+
+    public static class BankCardNotFoundException extends BaseException {
+        public BankCardNotFoundException(String message) {
+            super(message);
+        }
+    }
+
+    public static class UserCanNotDeletedException extends BaseException {
+        public UserCanNotDeletedException(String message) {
+            super(message);
+        }
+
+    }
 }
+
 

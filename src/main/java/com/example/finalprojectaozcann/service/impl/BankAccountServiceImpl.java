@@ -1,5 +1,6 @@
 package com.example.finalprojectaozcann.service.impl;
 
+import com.example.finalprojectaozcann.config.Constants;
 import com.example.finalprojectaozcann.converter.BankAccountConverter;
 import com.example.finalprojectaozcann.exception.BusinessServiceOperationException;
 import com.example.finalprojectaozcann.model.entity.CheckingAccount;
@@ -23,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 @Slf4j
 public class BankAccountServiceImpl implements BankAccountService {
-
 
     private final CheckingAccountRepository checkingAccountRepository;
     private final DepositAccountRepository depositAccountRepository;
@@ -51,14 +51,13 @@ public class BankAccountServiceImpl implements BankAccountService {
         return new GetBankAccountResponse(depositAccount.getId());
     }
 
-
     private User findByIdAndIsDeletedAndStatus(HttpServletRequest httpServletRequest) {
 
         Long userId = customJWTAuthenticationFilter
                 .findUserId(customJWTAuthenticationFilter.findToken(httpServletRequest));
         return userRepository
                 .findByIdAndIsDeleted(userId, false)
-                .orElseThrow(() -> new BusinessServiceOperationException.UserNotFoundException("User not found"));
+                .orElseThrow(() -> new BusinessServiceOperationException.UserNotFoundException(Constants.ErrorMessage.USER_NOT_FOUND));
     }
 
 }

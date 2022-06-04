@@ -22,10 +22,6 @@ public class User extends BaseExtendedEntity {
     @Column(nullable = false)
     private String surname;
 
-    //TODO Fix
-    @Transient
-    private String fullName = name + " " + surname;
-
     @Column(nullable = false, unique = true, length = 11)
     private Long identityNumber;
 

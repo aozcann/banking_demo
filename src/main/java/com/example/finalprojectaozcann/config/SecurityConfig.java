@@ -40,7 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(bcryptPasswordEncoder());
     }
 
-
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {

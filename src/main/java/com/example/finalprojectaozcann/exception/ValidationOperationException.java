@@ -34,4 +34,10 @@ public final class ValidationOperationException {
             super(message);
         }
     }
+
+    public static class TransferDateValidException extends BaseException {
+        public TransferDateValidException(String message) {
+            super(message);
+        }
+    }
 }

@@ -6,6 +6,7 @@ import com.auth0.jwt.exceptions.AlgorithmMismatchException;
 import com.auth0.jwt.exceptions.InvalidClaimException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.example.finalprojectaozcann.config.Constants;
 import com.example.finalprojectaozcann.config.Properties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +56,7 @@ public class CustomJWTAuthenticationFilter extends OncePerRequestFilter {
 
     public String findToken(HttpServletRequest request) {
         String headerAuth = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith(Constants.Security.BEARER)) {
             return headerAuth.substring(7);
         }
         return Strings.EMPTY;
@@ -63,16 +64,16 @@ public class CustomJWTAuthenticationFilter extends OncePerRequestFilter {
 
     public Long findUsername(String token) {
         if (!StringUtils.hasLength(token)) {
-            throw new IllegalArgumentException("Token can not be null or empty");
+            throw new IllegalArgumentException(Constants.SecurityErrorMessage.TOKEN_CAN_NOT_BE_NULL_OR_EMPTY);
         }
-        return JWT.decode(token).getClaim("identityNumber").asLong();
+        return JWT.decode(token).getClaim(Constants.Security.IDENTITY_NUMBER).asLong();
     }
 
     public Long findUserId(String token) {
         if (!StringUtils.hasLength(token)) {
-            throw new IllegalArgumentException("Token can not be null or empty");
+            throw new IllegalArgumentException(Constants.SecurityErrorMessage.TOKEN_CAN_NOT_BE_NULL_OR_EMPTY);
         }
-        return JWT.decode(token).getClaim("userId").asLong();
+        return JWT.decode(token).getClaim(Constants.Security.USER_ID).asLong();
     }
 
 

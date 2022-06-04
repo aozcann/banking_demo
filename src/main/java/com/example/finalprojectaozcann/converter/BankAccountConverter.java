@@ -15,7 +15,6 @@ import java.util.Random;
 @Component
 public class BankAccountConverter {
 
-
     public CheckingAccount toCreateCheckingAccount(Currency currency, User user) {
 
         String accountNumber = createAccountNumber();
@@ -36,7 +35,6 @@ public class BankAccountConverter {
 
     public DepositAccount toCreateDepositAccount(CreateDepositAccountRequest request, User user) {
 
-
         String accountNumber = createAccountNumber();
         String iban = createIban("TR", accountNumber);
 
@@ -52,8 +50,6 @@ public class BankAccountConverter {
         depositAccount.setCreatedAt(new Date());
 
         return depositAccount;
-
-
     }
 
     public String createAccountNumber() {
@@ -71,6 +67,5 @@ public class BankAccountConverter {
                 bankCode +
                 accountNumber;
     }
-
 
 }
