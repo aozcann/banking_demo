@@ -47,24 +47,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-//    private static final String[] SWAGGER_URLS = {
-//            "/v2/api-docs",
-//            "/v3/api-docs",
-//            "/configuration/**",
-//            "/swagger-resources/**",
-//            "/configuration/security",
-//            "/swagger-ui.html",
-//            "/swagger*/**",
-//            "/webjars/**",
-//            "/api/auth/login",
-//            "/api/auth/logout",
-//            "/api/users/admin"};
 
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/swagger-ui/**", "/bus/v3/api-docs/**");
-//
-//    }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/v2/api-docs",
+                "/configuration/ui",
+                "/swagger-resources/**",
+                "/configuration/security",
+                "/swagger-ui.html",
+                "/webjars/**");
+    }
+
+
+    private static final String[] AUTH_WHITELIST_FOR_SWAGGER = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+    };
+
+    private static final String[] AUTH_WHITELIST = {
+            "/api/auth/login",
+            "/api/auth/logout",
+            "/api/users/admin"
+    };
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -77,17 +81,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-//                .antMatchers("/**").permitAll()
-                .antMatchers("/api/auth/login").permitAll()
-                .antMatchers("/api/auth/logout").permitAll()
-                .antMatchers("/api/users/admin").permitAll()
-//                .antMatchers("/swagger-ui.html").permitAll()
-//                .antMatchers("/swagger*/**").permitAll()
-//                .antMatchers("/v2/api-docs").permitAll()
-//                .antMatchers("/v3/api-docs").permitAll()
-//                .antMatchers("/configuration/ui").permitAll()
-//                .antMatchers("/swagger-resources/**").permitAll()
-//                .antMatchers(SWAGGER_URLS).permitAll()
+                .antMatchers(AUTH_WHITELIST).permitAll()
+                .antMatchers(AUTH_WHITELIST_FOR_SWAGGER).permitAll()
                 .anyRequest()
                 .authenticated();
         http.addFilterBefore(customJWTAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
