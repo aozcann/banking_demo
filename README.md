@@ -1,6 +1,15 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=7849583&assignment_repo_type=AssignmentRepo)
 
 # Norma Spring Boot Final Project
+
+
+
+
+
+
+## Project design
+
+![Proje..design](img/final_project_design.png)
+
 
 ## Run
 
@@ -21,6 +30,37 @@ run the project
 ```bash
   docker-compose up
 ```
+Swagger url:
+```
+http://localhost:8080/swagger-ui.html
+```
+
+## Admin generate
+
+![Proje..admin_genarate](img/swagger-admin-generate.png)
+
+This url for genarated admin:
+```
+http://localhost:8080/swagger-ui.html#/user-controller/generateAdminUserUsingGET
+```
+
+
+### Authorize
+
+![Proje..swagger-auth](img/swagger-ui-1.png)
+
+
+### Authorization with bearer token
+![Proje..swagger-bearer](img/swagger-ui-2.png)
+
+Token example :Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6M
+TIzNDU2Nzg5MTIsImV4cCI6MTY1NDM3NDMzMiwiaWF0IjoxNjU0MzcyNTMyLCJ1c2VySWQiOjMyfQ.FcMMbC2UOn_4XcjUBIFdVcZFG-jaEP91OpAyAg5rdKDu0gD1xC0JH7Plwr4LhQfYTDS0HpIHh60ylTzJN6YE3w
+
+###Uygulanın şuan yapabildikleri
+
+![Proje..Norma](img/final-project-norma.jpeg) it is a joke
+
+
 
 ![money transfer](money_transfer.jpg)
 
@@ -77,3 +117,6 @@ yapılmalıdır. Hata durumları uygun şekilde ele alınmalı ve hatalara uygun
 
 Uygulama genelinde Spring Boot, Spring Rest ve JPA kullanılmalı, clean code ve SOLID prensiplerine uyulmalı, unit
 testler eklenmelidir.
+
+Proje benim gözümde bunu ifade ediyordu.
+
