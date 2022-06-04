@@ -10,7 +10,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -47,27 +46,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs",
-                "/configuration/ui",
-                "/swagger-resources/**",
-                "/configuration/security",
-                "/swagger-ui.html",
-                "/webjars/**");
-    }
-
-
-    private static final String[] AUTH_WHITELIST_FOR_SWAGGER = {
-            "/v3/api-docs/**",
+    private static final String[] AUTH_SWAGGER_URLS = {
+            "/v2/api-docs",
+            "/configuration/ui",
+            "/swagger-resources/**",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars*/**",
             "/swagger-ui/**",
-    };
-
-    private static final String[] AUTH_WHITELIST = {
-            "/api/auth/login",
-            "/api/auth/logout",
-            "/api/users/admin"
     };
 
     @Override
@@ -81,8 +67,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(AUTH_WHITELIST).permitAll()
-                .antMatchers(AUTH_WHITELIST_FOR_SWAGGER).permitAll()
+                .antMatchers("/api/auth/login").permitAll()
+                .antMatchers("/api/auth/logout").permitAll()
+                .antMatchers( "/api/users/admin").permitAll()
+                .antMatchers(AUTH_SWAGGER_URLS).permitAll()
                 .anyRequest()
                 .authenticated();
         http.addFilterBefore(customJWTAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

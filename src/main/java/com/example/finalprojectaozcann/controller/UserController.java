@@ -6,6 +6,7 @@ import com.example.finalprojectaozcann.model.response.GenerateAdminUserResponse;
 import com.example.finalprojectaozcann.model.response.GetUserResponse;
 import com.example.finalprojectaozcann.service.UserService;
 import com.example.finalprojectaozcann.validator.Validator;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,7 +27,7 @@ public class UserController {
     /*
     If not exist any user in db. It will be created an admin user only one time.
      */
-//    @ApiOperation("generate admin user")
+    @ApiOperation("generate admin user")
     @GetMapping(path = "/admin")
     public ResponseEntity<GenerateAdminUserResponse> generateAdminUser() {
         return ResponseEntity.ok(userService.generateAdminUser());
