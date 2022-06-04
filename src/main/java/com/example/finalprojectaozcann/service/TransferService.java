@@ -1,8 +1,10 @@
 package com.example.finalprojectaozcann.service;
 
+import com.example.finalprojectaozcann.model.request.ShoppingWithCardRequest;
 import com.example.finalprojectaozcann.model.request.TransferATMToCardRequest;
 import com.example.finalprojectaozcann.model.request.TransferCheckingAccountToDebitCardRequest;
 import com.example.finalprojectaozcann.model.request.TransferToAccountRequest;
+import com.example.finalprojectaozcann.model.response.SuccessShoppingResponse;
 import com.example.finalprojectaozcann.model.response.SuccessATMTransferResponse;
 import com.example.finalprojectaozcann.model.response.SuccessAccountTransferResponse;
 import com.example.finalprojectaozcann.model.response.SuccessCardTransferResponse;
@@ -21,4 +23,8 @@ public interface TransferService {
     SuccessATMTransferResponse transferATMToDebitCard(TransferATMToCardRequest request, HttpServletRequest httpServletRequest);
 
     SuccessATMTransferResponse transferATMToBankCard(TransferATMToCardRequest request, HttpServletRequest httpServletRequest);
+
+    SuccessShoppingResponse shoppingWithDebitCard(ShoppingWithCardRequest request, HttpServletRequest httpServletRequest);
+
+    SuccessShoppingResponse shoppingWithBankCard(ShoppingWithCardRequest request, HttpServletRequest httpServletRequest);
 }

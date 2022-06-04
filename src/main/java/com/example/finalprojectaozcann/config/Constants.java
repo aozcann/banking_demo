@@ -20,6 +20,10 @@ public final class Constants {
         public static final String USER_CAN_NOT_DELETE_CHECK_CHECKING_ACCOUNT_BALANCE = "User can not delete check checking account balance";
         public static final String USER_CAN_NOT_DELETE_CHECK_DEPOSIT_ACCOUNT_BALANCE = "User can not delete check deposit account balance";
         public static final String USER_CAN_NOT_DELETE_CHECK_DEBIT_CARD_DEBT = "User can not delete check debit card debt";
+        public static final String ACCOUNT_CAN_NOT_DELETE_CHECK_ACCOUNT_BALANCE = "Account can not delete check account balance";
+        public static final String LOGGER_CAN_ONLY_DELETE_OWN_ACCOUNT = "Logger can only delete own account";
+        public static final String CARD_CCV_IS_WRONG = "Card ccv is wrong" ;
+        public static final String CARD_EXPIRY_DATE_IS_WRONG = "Card expiry date is wrong";
     }
 
     public static class ValidationErrorMessage {
@@ -39,14 +43,17 @@ public final class Constants {
         public static final String USER_ROLES_CAN_NOT_BE_NULL_OR_EMPTY = "User roles can not be null or empty";
         public static final String DEBIT_CARD_NUMBER_CAN_NOT_BE_NULL_OR_EMPTY = "Debit card number can not be null or empty";
         public static final String CARD_NUMBER_CAN_NOT_BE_NULL_OR_EMPTY = "Card number can not be null or empty";
+        public static final String EXPIRY_DATE_CAN_NOT_BE_NULL_OR_EMPTY = "Expiry date can not be null or empty";
+        public static final String CCV_CAN_NOT_BE_NULL_OR_EMPTY = "CCV can not be null or empty";
         public static final String CARD_PASSWORD_CAN_NOT_BE_NULL_OR_EMPTY = "Card password can not be null or empty";
         public static final String SENDER_IBAN_CAN_NOT_BE_NULL_OR_EMPTY = "Sender iban can not be null or empty";
         public static final String RECEIVER_IBAN_CAN_NOT_BE_NULL_OR_EMPTY = "Receiver iban can not be null or empty";
         public static final String TRANSFER_DATE_CAN_NOT_BE_NULL_OR_EMPTY = "Transfer date can not be null or empty";
         public static final String AMOUNT_CAN_NOT_BE_LESS_THAN_ZERO = "Amount can not be less than zero";
+        public static final String PRICE_CAN_NOT_BE_LESS_THAN_ZERO = "Price can not be less than zero";
+        public static final String IBAN_CAN_NOT_BE_NULL_OR_EMPTY = "IBAN can not be null or empty";
         public static final String TRANSFER_DATE_CAN_NOT_BE_PAST_DAY = "Transfer date can not be past day";
         public static final String ID_SHOULD_BE_GREATER_THAN_ZERO = "ID should be greater than zero.";
-
     }
 
     public static class CurrencyApi {

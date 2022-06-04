@@ -15,6 +15,8 @@ public class TransferHistory extends BaseEntity {
 
     private String senderAccountType;
 
+    private String senderCardNumber;
+
     private Long senderId;
 
     private String senderIban;
@@ -27,7 +29,7 @@ public class TransferHistory extends BaseEntity {
 
     private String receiverCurrency;
 
-    private String receiverDebitCardNumber;
+    private String receiverCardNumber;
 
     private String receiverType;
 

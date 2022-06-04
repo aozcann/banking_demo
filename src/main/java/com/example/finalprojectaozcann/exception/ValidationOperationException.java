@@ -40,4 +40,10 @@ public final class ValidationOperationException {
             super(message);
         }
     }
+
+    public static class ShoppingRequestNotValid extends BaseException {
+        public ShoppingRequestNotValid(String message) {
+            super(message);
+        }
+    }
 }

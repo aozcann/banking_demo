@@ -7,10 +7,7 @@ import com.example.finalprojectaozcann.validator.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -38,5 +35,19 @@ public class BankAccountController {
         return ResponseEntity.ok(bankAccountService.createDeposit(request, httpServletRequest));
     }
 
+    @PreAuthorize("hasAuthority('USER')")
+    @DeleteMapping("/checking/{id}")
+    public ResponseEntity<?> deleteCheckingAccountById(@PathVariable Long id,
+                                            HttpServletRequest httpServletRequest) {
+        idValidator.validate(id);
+        return ResponseEntity.ok(bankAccountService.deleteCheckingAccountById(id, httpServletRequest));
+    }
 
+    @PreAuthorize("hasAuthority('USER')")
+    @DeleteMapping("/deposit/{id}")
+    public ResponseEntity<?> deleteDepositAccountById(@PathVariable Long id,
+                                            HttpServletRequest httpServletRequest) {
+        idValidator.validate(id);
+        return ResponseEntity.ok(bankAccountService.deleteDepositAccountById(id, httpServletRequest));
+    }
 }

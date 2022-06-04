@@ -13,4 +13,6 @@ public interface DepositAccountRepository extends JpaRepository<DepositAccount, 
     Optional<DepositAccount> findByIbanAndIsDeletedAndAccountStatus(String iban, boolean isDeleted, AccountStatus accountStatus);
 
     Collection<DepositAccount> findAllByUser(User user);
+
+    Optional<DepositAccount> findByIdAndIsDeleted(Long id, boolean b);
 }

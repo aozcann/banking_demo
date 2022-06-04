@@ -47,6 +47,8 @@ public class CardController {
         return ResponseEntity.ok(cardService.getInquiryDebitCard(request, httpServletRequest));
     }
 
+
+
     //TODO Düşünülecek
 //    @PreAuthorize("hasAuthority('USER')")
 //    @PostMapping(path = "/debit/extract")

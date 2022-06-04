@@ -16,4 +16,5 @@ public interface CardService {
     GetDebitCardResponse createDebitCard(CreateCardRequest request, HttpServletRequest httpServletRequest);
 
     GetDebitCardDeptInquiryResponse getInquiryDebitCard(DebitCardDeptInquiryRequest request, HttpServletRequest httpServletRequest);
+
 }

@@ -4,6 +4,7 @@ import com.example.finalprojectaozcann.model.entity.CheckingAccount;
 import com.example.finalprojectaozcann.model.entity.User;
 import com.example.finalprojectaozcann.model.enums.AccountStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -16,4 +17,5 @@ public interface CheckingAccountRepository extends JpaRepository<CheckingAccount
 
     Collection<CheckingAccount> findAllByUser(User user);
 
+    Optional<CheckingAccount> findByIdAndIsDeleted(Long id,boolean isDeleted);
 }

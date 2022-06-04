@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
         Collection<CheckingAccount> allCheckingAccounts = checkingAccountRepository.findAllByUser(user);
         Collection<DebitCard> allDebitCards = debitCardRepository.findAllByUser(user);
         Collection<BankCard> allBankCards = bankCardRepository.findAllByUser(user);
-        checkAllAccountBalanceAndCardDebtIsZero(user, allDepositAccounts,
+        checkAllAccountBalanceAndCardDebtIsZero(allDepositAccounts,
                 allCheckingAccounts, allDebitCards, loggedUserId, allBankCards);
 
         if (isHardDeleted) {
@@ -171,7 +171,7 @@ public class UserServiceImpl implements UserService {
         return new GenerateAdminUserResponse(user.getPassword(), user.getRoles());
     }
 
-    public void checkAllAccountBalanceAndCardDebtIsZero(User user, Collection<DepositAccount> depositAccounts,
+    public void checkAllAccountBalanceAndCardDebtIsZero(Collection<DepositAccount> depositAccounts,
                                                         Collection<CheckingAccount> checkingAccounts,
                                                         Collection<DebitCard> debitCards, Long loggedUserId,
                                                         Collection<BankCard> bankCards) {

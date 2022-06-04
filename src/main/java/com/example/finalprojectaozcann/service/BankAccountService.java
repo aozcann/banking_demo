@@ -11,4 +11,8 @@ public interface BankAccountService {
     GetBankAccountResponse createChecking(CreateCheckingAccountRequest request, HttpServletRequest httpServletRequest);
 
     GetBankAccountResponse createDeposit(CreateDepositAccountRequest request, HttpServletRequest httpServletRequest);
+
+    boolean deleteCheckingAccountById(Long id, HttpServletRequest httpServletRequest);
+
+    Object deleteDepositAccountById(Long id, HttpServletRequest httpServletRequest);
 }

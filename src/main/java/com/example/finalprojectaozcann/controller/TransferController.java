@@ -1,8 +1,10 @@
 package com.example.finalprojectaozcann.controller;
 
+import com.example.finalprojectaozcann.model.request.ShoppingWithCardRequest;
 import com.example.finalprojectaozcann.model.request.TransferATMToCardRequest;
 import com.example.finalprojectaozcann.model.request.TransferCheckingAccountToDebitCardRequest;
 import com.example.finalprojectaozcann.model.request.TransferToAccountRequest;
+import com.example.finalprojectaozcann.model.response.SuccessShoppingResponse;
 import com.example.finalprojectaozcann.model.response.SuccessATMTransferResponse;
 import com.example.finalprojectaozcann.model.response.SuccessAccountTransferResponse;
 import com.example.finalprojectaozcann.model.response.SuccessCardTransferResponse;
@@ -27,6 +29,7 @@ public class TransferController {
     private final Validator<TransferToAccountRequest> transferToAccountRequestValidator;
     private final Validator<TransferCheckingAccountToDebitCardRequest> transferCheckingAccountToDebitCardRequestValidator;
     private final Validator<TransferATMToCardRequest> transferATMToCardRequestValidator;
+    private final Validator<ShoppingWithCardRequest> shoppingWithCardRequestValidator;
     private final Validator<String> dateRequestValidator;
 
     @PreAuthorize("hasAuthority('USER')")
@@ -79,6 +82,20 @@ public class TransferController {
                                                                             HttpServletRequest httpServletRequest) {
         transferATMToCardRequestValidator.validate(request);
         return ResponseEntity.ok(transferService.transferATMToBankCard(request, httpServletRequest));
+    }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @PostMapping(path = "/debit-card/shopping")
+    public ResponseEntity<SuccessShoppingResponse> shoppingWithDebitCard(ShoppingWithCardRequest request, HttpServletRequest httpServletRequest) {
+        shoppingWithCardRequestValidator.validate(request);
+        return ResponseEntity.ok(transferService.shoppingWithDebitCard(request, httpServletRequest));
+    }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @PostMapping(path = "/bank-card/shopping")
+    public ResponseEntity<SuccessShoppingResponse> shoppingWithBankCard(ShoppingWithCardRequest request, HttpServletRequest httpServletRequest) {
+        shoppingWithCardRequestValidator.validate(request);
+        return ResponseEntity.ok(transferService.shoppingWithBankCard(request, httpServletRequest));
     }
 
 }

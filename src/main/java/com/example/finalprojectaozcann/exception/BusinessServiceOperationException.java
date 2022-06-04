@@ -74,6 +74,30 @@ public final class BusinessServiceOperationException {
         }
 
     }
+
+    public static class AccountCanNotDeleteException extends BaseException {
+        public AccountCanNotDeleteException(String message) {
+            super(message);
+        }
+    }
+
+    public static class LoggerCanOnlyDeleteOwnAccountException extends BaseException {
+        public LoggerCanOnlyDeleteOwnAccountException(String message) {
+            super(message);
+        }
+    }
+
+    public static class CardCcvIsWrongException extends BaseException {
+        public CardCcvIsWrongException(String message) {
+            super(message);
+        }
+    }
+
+    public static class CardExpiryDateIsWrongException extends BaseException {
+        public CardExpiryDateIsWrongException(String message) {
+            super(message);
+        }
+    }
 }
 
 

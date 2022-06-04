@@ -8,14 +8,17 @@ import com.example.finalprojectaozcann.model.base.BaseBankAccount;
 import com.example.finalprojectaozcann.model.entity.*;
 import com.example.finalprojectaozcann.model.enums.AccountStatus;
 import com.example.finalprojectaozcann.model.enums.Currency;
+import com.example.finalprojectaozcann.model.request.ShoppingWithCardRequest;
 import com.example.finalprojectaozcann.model.request.TransferATMToCardRequest;
 import com.example.finalprojectaozcann.model.request.TransferCheckingAccountToDebitCardRequest;
 import com.example.finalprojectaozcann.model.request.TransferToAccountRequest;
 import com.example.finalprojectaozcann.model.response.SuccessATMTransferResponse;
 import com.example.finalprojectaozcann.model.response.SuccessAccountTransferResponse;
 import com.example.finalprojectaozcann.model.response.SuccessCardTransferResponse;
+import com.example.finalprojectaozcann.model.response.SuccessShoppingResponse;
 import com.example.finalprojectaozcann.repository.*;
 import com.example.finalprojectaozcann.service.TransferService;
+import com.example.finalprojectaozcann.utils.DateUtil;
 import com.example.finalprojectaozcann.utils.JWTDecodeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -67,7 +70,7 @@ public class TransferServiceImpl implements TransferService {
         checkingAccountRepository.save(senderAccount);
         depositAccountRepository.save(receiverAccount);
 
-        TransferHistory transferHistory = transferConverter.createTransferHistoryForAccount(senderAccount,
+        TransferHistory transferHistory = transferConverter.createTransferHistoryForAccountToAccount(senderAccount,
                 receiverAccount, amount, currencyRate, request.description());
         transferHistoryRepository.save(transferHistory);
 
@@ -95,7 +98,7 @@ public class TransferServiceImpl implements TransferService {
         checkingAccountRepository.save(receiverAccount);
         depositAccountRepository.save(senderAccount);
 
-        TransferHistory transferHistory = transferConverter.createTransferHistoryForAccount(receiverAccount,
+        TransferHistory transferHistory = transferConverter.createTransferHistoryForAccountToAccount(receiverAccount,
                 senderAccount, amount, currencyRate, request.description());
         transferHistoryRepository.save(transferHistory);
 
@@ -122,7 +125,7 @@ public class TransferServiceImpl implements TransferService {
         checkingAccountRepository.save(senderAccount);
         checkingAccountRepository.save(receiverAccount);
 
-        TransferHistory transferHistory = transferConverter.createTransferHistoryForAccount(senderAccount,
+        TransferHistory transferHistory = transferConverter.createTransferHistoryForAccountToAccount(senderAccount,
                 receiverAccount, amount, currencyRate, request.description());
         transferHistoryRepository.save(transferHistory);
 
@@ -149,13 +152,13 @@ public class TransferServiceImpl implements TransferService {
 
         BigDecimal dept = receiverCard.getDept();
         receiverCard.setDept(dept.subtract(amount));
-        receiverCard.setExpendableAmount(receiverCard.getCardLimit().subtract(dept));
+        receiverCard.setExpendableAmount(receiverCard.getCardLimit().subtract(receiverCard.getDept()));
         senderAccount.setBalance(senderAccount.getBalance().subtract(amount));
 
         checkingAccountRepository.save(senderAccount);
         debitCardRepository.save(receiverCard);
 
-        TransferHistory transferHistory = transferConverter.createTransferHistoryForCard(amount, receiverCard,
+        TransferHistory transferHistory = transferConverter.createTransferHistoryForAccountToCard(amount, receiverCard,
                 senderAccount, request.description(), currencyRate);
         transferHistoryRepository.save(transferHistory);
 
@@ -181,6 +184,7 @@ public class TransferServiceImpl implements TransferService {
         BigDecimal amount = request.amount();
 
         debitCard.setDept(debitCard.getDept().subtract(amount));
+        debitCard.setExpendableAmount(debitCard.getCardLimit().subtract(debitCard.getDept()));
         debitCardRepository.save(debitCard);
 
         TransferHistory transferHistory = transferConverter.createATMTransferToCard(loggedUserId, debitCard, amount);
@@ -215,6 +219,90 @@ public class TransferServiceImpl implements TransferService {
 
         return transferConverter.toSuccessATMTransferResponse(amount, bankCard);
     }
+
+    @Override
+    public SuccessShoppingResponse shoppingWithDebitCard(ShoppingWithCardRequest request
+            , HttpServletRequest httpServletRequest) {
+
+        Long loggedUserId = jwtDecodeUtil.findUserIdFromJwt(httpServletRequest);
+
+        DebitCard debitCard = debitCardRepository.findByCardNumberAndIsDeleted(request.cardNumber(), false)
+                .orElseThrow(() -> new BusinessServiceOperationException
+                        .DebitCardNotFoundException(Constants.ErrorMessage.DEBIT_CARD_NOT_FOUND));
+
+        checkLoggerEqualSender(loggedUserId, debitCard.getUser().getId());
+
+        if (!(request.ccv().equals(debitCard.getCcv()))) {
+            throw new BusinessServiceOperationException.CardCcvIsWrongException(Constants.ErrorMessage.CARD_CCV_IS_WRONG);
+        }
+        if (!(request.password().equals(debitCard.getPassword()))) {
+            throw new BusinessServiceOperationException.CardPasswordIsWrongException(Constants.ErrorMessage.CARD_CCV_IS_WRONG);
+        }
+        if (!(DateUtil.dateFormatStringToLocalDate(request.expiryDate()).equals(debitCard.getExpiryDate()))) {
+            throw new BusinessServiceOperationException.CardExpiryDateIsWrongException(Constants.ErrorMessage.CARD_EXPIRY_DATE_IS_WRONG);
+        }
+
+        compareAmountToSenderAccountBalance(request.price(), debitCard.getExpendableAmount());
+
+        CheckingAccount checkingAccount = getCheckingAccountByIban(request.payeeIBAN());
+        BigDecimal amount = request.price();
+
+        BigDecimal currencyRate = getCurrencyRateForTransfer(Currency.TRY, checkingAccount.getCurrency());
+        amount = amount.multiply(currencyRate);
+
+        debitCard.setDept(debitCard.getDept().add(amount));
+        debitCard.setExpendableAmount(debitCard.getCardLimit().subtract(debitCard.getDept()));
+        debitCardRepository.save(debitCard);
+
+        checkingAccount.setBalance(checkingAccount.getBalance().add(amount));
+        checkingAccountRepository.save(checkingAccount);
+
+        TransferHistory transferHistory = transferConverter.createTransferHistoryForCardToAccount(amount, checkingAccount, debitCard, currencyRate);
+        transferHistoryRepository.save(transferHistory);
+        return transferConverter.toSuccessShoppingResponse(debitCard, checkingAccount, amount, transferHistory);
+    }
+
+    @Override
+    public SuccessShoppingResponse shoppingWithBankCard(ShoppingWithCardRequest request, HttpServletRequest httpServletRequest) {
+
+        Long loggedUserId = jwtDecodeUtil.findUserIdFromJwt(httpServletRequest);
+
+        BankCard bankCard = bankCardRepository.findByCardNumberAndIsDeleted(request.cardNumber(), false)
+                .orElseThrow(() -> new BusinessServiceOperationException
+                        .BankCardNotFoundException(Constants.ErrorMessage.BANK_CARD_NOT_FOUND));
+
+        checkLoggerEqualSender(loggedUserId, bankCard.getUser().getId());
+
+        if (!(request.ccv().equals(bankCard.getCcv()))) {
+            throw new BusinessServiceOperationException.CardCcvIsWrongException(Constants.ErrorMessage.CARD_CCV_IS_WRONG);
+        }
+        if (!(request.password().equals(bankCard.getPassword()))) {
+            throw new BusinessServiceOperationException.CardPasswordIsWrongException(Constants.ErrorMessage.CARD_CCV_IS_WRONG);
+        }
+        if (!(DateUtil.dateFormatStringToLocalDate(request.expiryDate()).equals(bankCard.getExpiryDate()))) {
+            throw new BusinessServiceOperationException.CardExpiryDateIsWrongException(Constants.ErrorMessage.CARD_EXPIRY_DATE_IS_WRONG);
+        }
+
+        compareAmountToSenderAccountBalance(request.price(), bankCard.getCheckingAccount().getBalance());
+
+        CheckingAccount checkingAccount = getCheckingAccountByIban(request.payeeIBAN());
+        BigDecimal amount = request.price();
+
+        BigDecimal currencyRate = getCurrencyRateForTransfer(Currency.TRY, checkingAccount.getCurrency());
+        amount = amount.multiply(currencyRate);
+
+        bankCard.getCheckingAccount().setBalance(bankCard.getCheckingAccount().getBalance().subtract(amount));
+        bankCardRepository.save(bankCard);
+
+        checkingAccount.setBalance(checkingAccount.getBalance().add(amount));
+        checkingAccountRepository.save(checkingAccount);
+
+        TransferHistory transferHistory = transferConverter.createTransferHistoryForCardToAccount(amount, checkingAccount, bankCard, currencyRate);
+        transferHistoryRepository.save(transferHistory);
+        return transferConverter.toSuccessShoppingResponse(bankCard, checkingAccount, amount, transferHistory);
+
+    }
+
 
     private DebitCard getDebitCardByCardNumber(String cardNumber) {
         return debitCardRepository.findByCardNumberAndIsDeleted(cardNumber, false)
