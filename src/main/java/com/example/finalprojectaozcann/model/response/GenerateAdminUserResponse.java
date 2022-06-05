@@ -4,6 +4,7 @@ import com.example.finalprojectaozcann.model.entity.Role;
 
 import java.util.Set;
 
-public record GenerateAdminUserResponse(String password,
+public record GenerateAdminUserResponse(Long identityNumber,
+                                        String password,
                                         Set<Role> role) {
 }

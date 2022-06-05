@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -61,5 +62,13 @@ public class User extends BaseExtendedEntity {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private Set<DebitCard> debitCards = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(name, user.name) && Objects.equals(surname, user.surname) && Objects.equals(identityNumber, user.identityNumber) && Objects.equals(birthday, user.birthday) && Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(address, user.address) && Objects.equals(email, user.email) && status == user.status && userType == user.userType && Objects.equals(password, user.password) && Objects.equals(roles, user.roles) && Objects.equals(checkingAccounts, user.checkingAccounts) && Objects.equals(depositAccounts, user.depositAccounts) && Objects.equals(bankCards, user.bankCards) && Objects.equals(debitCards, user.debitCards);
+    }
 
 }

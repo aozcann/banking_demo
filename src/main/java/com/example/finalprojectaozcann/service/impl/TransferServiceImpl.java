@@ -22,12 +22,15 @@ import com.example.finalprojectaozcann.utils.DateUtil;
 import com.example.finalprojectaozcann.utils.JWTDecodeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -44,7 +47,6 @@ public class TransferServiceImpl implements TransferService {
     private final DebitCardRepository debitCardRepository;
     private final BankCardRepository bankCardRepository;
 
-    //TODO transferDate format ayarlanacak , date
     @Override
     public SuccessAccountTransferResponse transferCheckingToDeposit(TransferToAccountRequest request,
                                                                     HttpServletRequest httpServletRequest) {
@@ -54,12 +56,16 @@ public class TransferServiceImpl implements TransferService {
         checkLoggerEqualSender(loggedUserId, senderAccount.getUser().getId());
         DepositAccount receiverAccount = getDepositAccountByIban(request.receiverIban());
 
-        //TODO job yapılacak
-//        if (!(DateUtil.dateFormatStringToLocalDate(request.transferDate()).equals(LocalDate.now()))) {
-//
-//            List<BigDecimal> amountAndCurrencyRate = setSenderAndReceiverAccountsLockedBalance(request.amount(),
-//                    senderAccount, receiverAccount);
-//        }
+        if (!(DateUtil.dateFormatStringToLocalDate(request.transferDate()).equals(LocalDate.now()))) {
+
+            TransferHistory transferHistory = transferConverter.createTransferHistoryForAccountToAccount(senderAccount,
+                    receiverAccount,request.amount(),BigDecimal.ONE, request.description());
+            transferHistory.setScheduled(true);
+            transferHistory.setTransferDate(DateUtil.dateFormatStringToLocalDate(request.transferDate()));
+            transferHistoryRepository.save(transferHistory);
+
+            return transferConverter.toSuccessAccountTransferResponse(Constants.Message.SCHEDULED_TRANSFER);
+        }
 
         List<BigDecimal> amountAndCurrencyRate = setSenderAndReceiverAccountsBalance(request.amount(),
                 senderAccount, receiverAccount);
@@ -76,6 +82,32 @@ public class TransferServiceImpl implements TransferService {
 
         return transferConverter.toSuccessAccountTransferResponse(amount, receiverAccount, senderAccount, currencyRate,
                 transferHistory.getTransferDate());
+    }
+    @Scheduled(cron =  "0 1 1 ? * *") // every day 1:01 am
+    public void scheduledTransfer(){
+        Collection<TransferHistory> scheduledTransferList = transferHistoryRepository.findAllByIsScheduled(true);
+        for (TransferHistory transferHistory : scheduledTransferList) {
+            if (transferHistory.getTransferDate().equals(LocalDate.now())) {
+
+                CheckingAccount senderAccount = getCheckingAccountByIban(transferHistory.getSenderIban());
+                DepositAccount receiverAccount = getDepositAccountByIban(transferHistory.getReceiverIban());
+
+                List<BigDecimal> amountAndCurrencyRate = setSenderAndReceiverAccountsBalance(transferHistory.getTransferAmount(),
+                        senderAccount, receiverAccount);
+
+                BigDecimal amount = amountAndCurrencyRate.get(0);
+                BigDecimal currencyRate = amountAndCurrencyRate.get(1);
+
+                checkingAccountRepository.save(senderAccount);
+                depositAccountRepository.save(receiverAccount);
+
+                transferHistory.setTransferAmount(amount);
+                transferHistory.setCurrencyRate(currencyRate);
+                transferHistory.setScheduled(false);
+
+                transferHistoryRepository.save(transferHistory);
+            }
+        }
     }
 
     @Override
@@ -311,17 +343,10 @@ public class TransferServiceImpl implements TransferService {
     }
 
 
-//    private List<BigDecimal> setSenderAndReceiverAccountsLockedBalance(BigDecimal amount, CheckingAccount senderAccount,
-//                                                                       DepositAccount receiverAccount) {
-//
-//    }
-
     private List<BigDecimal> setSenderAndReceiverAccountsBalance(BigDecimal amount, BaseBankAccount senderAccount,
                                                                  BaseBankAccount receiverAccount) {
 
         compareAmountToSenderAccountBalance(amount, senderAccount.getBalance());
-
-        //TODO lockedbalance eklenecek
 
         BigDecimal currencyRate = getCurrencyRateForTransfer(senderAccount.getCurrency(), receiverAccount.getCurrency());
         amount = amount.multiply(currencyRate);

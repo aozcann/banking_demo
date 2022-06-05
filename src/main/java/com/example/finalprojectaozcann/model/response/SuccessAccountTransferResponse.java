@@ -8,5 +8,6 @@ public record SuccessAccountTransferResponse(String receiverIban,
                                              LocalDate date,
                                              String receiverName,
                                              String senderName,
-                                             BigDecimal currencyRate) {
+                                             BigDecimal currencyRate,
+                                             String message) {
 }

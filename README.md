@@ -1,15 +1,19 @@
-
 # Norma Spring Boot Final Project
 
+### NOTE: Firstly, should be generated Admin user
 
+An admin user is required to run the application. The address http://localhost:8080/api/users/admin should be used to
+create the admin user. The explanation is below for swagger:
 
+Admin user:
 
+Identity: 10000000000
 
+Password: Norm@.1
 
 ## Project design
 
 ![Proje..design](img/final_project_design.png)
-
 
 ## Run
 
@@ -30,7 +34,9 @@ run the project
 ```bash
   docker-compose up
 ```
+
 Swagger url:
+
 ```
 http://localhost:8080/swagger-ui.html
 ```
@@ -40,27 +46,26 @@ http://localhost:8080/swagger-ui.html
 ![Proje..admin_genarate](img/swagger-admin-generate.png)
 
 This url for genarated admin:
+
 ```
 http://localhost:8080/swagger-ui.html#/user-controller/generateAdminUserUsingGET
 ```
 
-
-### Authorize
+## Authorize
 
 ![Proje..swagger-auth](img/swagger-ui-1.png)
 
+## Authorization with bearer token
 
-### Authorization with bearer token
 ![Proje..swagger-bearer](img/swagger-ui-2.png)
 
 Token example :Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6M
 TIzNDU2Nzg5MTIsImV4cCI6MTY1NDM3NDMzMiwiaWF0IjoxNjU0MzcyNTMyLCJ1c2VySWQiOjMyfQ.FcMMbC2UOn_4XcjUBIFdVcZFG-jaEP91OpAyAg5rdKDu0gD1xC0JH7Plwr4LhQfYTDS0HpIHh60ylTzJN6YE3w
 
-###Uygulanın şuan yapabildikleri
+### What app can do now
 
-![Proje..Norma](img/final-project-norma.jpeg) it is a joke
-
-
+Sorry about my front-end skill. I tried tp show what my app do.
+![Proje..Norma](img/final-project-norma.jpeg)
 
 ![money transfer](money_transfer.jpg)
 
@@ -118,5 +123,4 @@ yapılmalıdır. Hata durumları uygun şekilde ele alınmalı ve hatalara uygun
 Uygulama genelinde Spring Boot, Spring Rest ve JPA kullanılmalı, clean code ve SOLID prensiplerine uyulmalı, unit
 testler eklenmelidir.
 
-Proje benim gözümde bunu ifade ediyordu.
 

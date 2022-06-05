@@ -33,6 +33,7 @@ public class TransferConverter {
         transferHistory.setTransferAmount(amount);
         transferHistory.setDescription(description);
         transferHistory.setCurrencyRate(currencyRate);
+        transferHistory.setScheduled(false);
 
         return transferHistory;
     }
@@ -46,7 +47,8 @@ public class TransferConverter {
                 transferDate,
                 receiverAccount.getUser().getName(),
                 senderAccount.getUser().getName(),
-                currencyRate);
+                currencyRate,
+                null);
     }
 
     public TransferHistory createTransferHistoryForAccountToCard(BigDecimal amount, DebitCard receiverCard,
@@ -122,5 +124,15 @@ public class TransferConverter {
                 checkingAccount.getUser().getName(),
                 amount.toString(),
                 transferHistory.getTransferDate().toString());
+    }
+
+    public SuccessAccountTransferResponse toSuccessAccountTransferResponse(String message) {
+        return new SuccessAccountTransferResponse(null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            message);
     }
 }

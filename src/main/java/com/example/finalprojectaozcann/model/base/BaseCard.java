@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -42,5 +43,14 @@ public class BaseCard extends BaseExtendedEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        BaseCard baseCard = (BaseCard) o;
+        return Objects.equals(name, baseCard.name) && Objects.equals(surname, baseCard.surname) && cardType == baseCard.cardType && Objects.equals(cardNumber, baseCard.cardNumber) && Objects.equals(expiryDate, baseCard.expiryDate) && Objects.equals(ccv, baseCard.ccv) && Objects.equals(password, baseCard.password) && cardStatus == baseCard.cardStatus && Objects.equals(user, baseCard.user);
+    }
 
 }

@@ -8,4 +8,6 @@ import java.util.Collection;
 public interface TransferHistoryRepository extends JpaRepository<TransferHistory, Long> {
 
     Collection<TransferHistory> findAllBySenderId(Long cardId);
+
+    Collection<TransferHistory> findAllByIsScheduled(boolean isScheduled);
 }

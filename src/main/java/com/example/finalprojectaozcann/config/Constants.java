@@ -28,6 +28,9 @@ public final class Constants {
         public static final String USER_CAN_ONLY_QUERY_WITH_OWN_CARD = "User can only query with own card.";
     }
 
+    public static class Message {
+        public static final String SCHEDULED_TRANSFER = "Scheduled transfer on the list successfully. If you have money in your account, your transaction will be processed.";}
+
     public static class ValidationErrorMessage {
         public static final String REQUEST_CAN_NOT_BE_NULL_OR_EMPTY = "Request can not be null or empty";
         public static final String ACCOUNT_NUMBER_CAN_NOT_BE_NULL_OR_EMPTY = "Account number can not be null or empty";

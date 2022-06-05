@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Setter
 @Getter
@@ -40,5 +41,13 @@ public abstract class BaseBankAccount extends BaseExtendedEntity {
 
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BaseBankAccount that = (BaseBankAccount) o;
+        return Objects.equals(user, that.user) && accountType == that.accountType && Objects.equals(accountNumber, that.accountNumber) && Objects.equals(iban, that.iban) && Objects.equals(balance, that.balance) && Objects.equals(lockedBalance, that.lockedBalance) && currency == that.currency && accountStatus == that.accountStatus;
+    }
 
 }
