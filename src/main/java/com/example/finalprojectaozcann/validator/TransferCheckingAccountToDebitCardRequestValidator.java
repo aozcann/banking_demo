@@ -29,6 +29,6 @@ public class TransferCheckingAccountToDebitCardRequestValidator implements Valid
         }
         if (!(StringUtils.hasLength(request.transferDate()))) {
             throw new ValidationOperationException.TransferRequestNotValid(Constants.ValidationErrorMessage.TRANSFER_DATE_CAN_NOT_BE_NULL_OR_EMPTY);
-    }
+        }
     }
 }

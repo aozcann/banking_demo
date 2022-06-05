@@ -22,8 +22,9 @@ public final class Constants {
         public static final String USER_CAN_NOT_DELETE_CHECK_DEBIT_CARD_DEBT = "User can not delete check debit card debt";
         public static final String ACCOUNT_CAN_NOT_DELETE_CHECK_ACCOUNT_BALANCE = "Account can not delete check account balance";
         public static final String LOGGER_CAN_ONLY_DELETE_OWN_ACCOUNT = "Logger can only delete own account";
-        public static final String CARD_CCV_IS_WRONG = "Card ccv is wrong" ;
+        public static final String CARD_CCV_IS_WRONG = "Card ccv is wrong";
         public static final String CARD_EXPIRY_DATE_IS_WRONG = "Card expiry date is wrong";
+        public static final String AN_AUTHENTICATION_OBJECT_WAS_NOT_FOUND_IN_THE_SECURITY_CONTEXT = "An Authentication object was not found in the SecurityContext";
     }
 
     public static class ValidationErrorMessage {

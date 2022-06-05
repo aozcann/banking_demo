@@ -1,8 +1,10 @@
 package com.example.finalprojectaozcann.controller;
 
+import com.example.finalprojectaozcann.model.request.CardExtractRequest;
 import com.example.finalprojectaozcann.model.request.CreateCardRequest;
 import com.example.finalprojectaozcann.model.request.DebitCardDeptInquiryRequest;
 import com.example.finalprojectaozcann.model.response.GetBankCardResponse;
+import com.example.finalprojectaozcann.model.response.GetCardExtractResponse;
 import com.example.finalprojectaozcann.model.response.GetDebitCardDeptInquiryResponse;
 import com.example.finalprojectaozcann.model.response.GetDebitCardResponse;
 import com.example.finalprojectaozcann.service.CardService;
@@ -47,20 +49,17 @@ public class CardController {
         return ResponseEntity.ok(cardService.getInquiryDebitCard(request, httpServletRequest));
     }
 
+    @PreAuthorize("hasAuthority('USER')")
+    @PostMapping(path = "/debit/extract")
+    public ResponseEntity<GetCardExtractResponse> getExtractOfDebitCard(CardExtractRequest request, HttpServletRequest httpServletRequest) {
+        return ResponseEntity.ok(cardService.getExtractOfDebitCard(request, httpServletRequest));
+    }
 
-
-    //TODO Düşünülecek
-//    @PreAuthorize("hasAuthority('USER')")
-//    @PostMapping(path = "/debit/extract")
-//    public ResponseEntity<GetCardExtractResponse> getExtractOfDebit(CardExtractRequest request, HttpServletRequest httpServletRequest) {
-//        return ResponseEntity.ok(cardService.getExtractOfDebit(request,httpServletRequest));
-//    }
-
-//    @PreAuthorize("hasAuthority('USER')")
-//    @PostMapping(path = "/bank/extract")
-//    public ResponseEntity<GetExtractOfDebitResponse> getExtractOfDebit(CardExtractRequest request,HttpServletRequest httpServletRequest) {
-//        return ResponseEntity.ok(cardService.getExtractOfDebit(request,httpServletRequest));
-//    }
+    @PreAuthorize("hasAuthority('USER')")
+    @PostMapping(path = "/bank/extract")
+    public ResponseEntity<GetCardExtractResponse> getExtractOfBankCard(CardExtractRequest request, HttpServletRequest httpServletRequest) {
+        return ResponseEntity.ok(cardService.getExtractOfBankCard(request, httpServletRequest));
+    }
 
 
 }

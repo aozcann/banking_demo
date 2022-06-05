@@ -7,20 +7,15 @@ import com.example.finalprojectaozcann.model.entity.BankCard;
 import com.example.finalprojectaozcann.model.entity.CheckingAccount;
 import com.example.finalprojectaozcann.model.entity.DebitCard;
 import com.example.finalprojectaozcann.model.entity.User;
-import com.example.finalprojectaozcann.model.enums.AccountStatus;
+import com.example.finalprojectaozcann.model.request.CardExtractRequest;
 import com.example.finalprojectaozcann.model.request.CreateCardRequest;
 import com.example.finalprojectaozcann.model.request.DebitCardDeptInquiryRequest;
-import com.example.finalprojectaozcann.model.request.ShoppingWithCardRequest;
 import com.example.finalprojectaozcann.model.response.GetBankCardResponse;
+import com.example.finalprojectaozcann.model.response.GetCardExtractResponse;
 import com.example.finalprojectaozcann.model.response.GetDebitCardDeptInquiryResponse;
 import com.example.finalprojectaozcann.model.response.GetDebitCardResponse;
-import com.example.finalprojectaozcann.model.response.SuccessShoppingResponse;
-import com.example.finalprojectaozcann.repository.BankCardRepository;
-import com.example.finalprojectaozcann.repository.CheckingAccountRepository;
-import com.example.finalprojectaozcann.repository.DebitCardRepository;
-import com.example.finalprojectaozcann.repository.UserRepository;
+import com.example.finalprojectaozcann.repository.*;
 import com.example.finalprojectaozcann.service.CardService;
-import com.example.finalprojectaozcann.utils.DateUtil;
 import com.example.finalprojectaozcann.utils.JWTDecodeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +34,7 @@ public class CardServiceImpl implements CardService {
     private final CheckingAccountRepository checkingAccountRepository;
     private final UserRepository userRepository;
     private final DebitCardRepository debitCardRepository;
+    private final TransferHistoryRepository transferHistoryRepository;
 
     @Override
     public GetBankCardResponse createBankCard(CreateCardRequest request, HttpServletRequest httpServletRequest) {
@@ -74,6 +70,24 @@ public class CardServiceImpl implements CardService {
                 .orElseThrow(() -> new BusinessServiceOperationException
                         .DebitCardNotFoundException(Constants.ErrorMessage.DEBIT_CARD_NOT_FOUND));
         return cardConverter.toGetDebitCardDeptInquiryResponse(debitCard);
+    }
+
+    @Override
+    public GetCardExtractResponse getExtractOfDebitCard(CardExtractRequest request, HttpServletRequest httpServletRequest) {
+
+        DebitCard debitCard = debitCardRepository.findByCardNumberAndIsDeleted(request.cardNumber(), false)
+                .orElseThrow(() -> new BusinessServiceOperationException
+                        .DebitCardNotFoundException(Constants.ErrorMessage.DEBIT_CARD_NOT_FOUND));
+
+        return new GetCardExtractResponse(transferHistoryRepository.findAllBySenderId(debitCard.getId()));
+    }
+
+    @Override
+    public GetCardExtractResponse getExtractOfBankCard(CardExtractRequest request, HttpServletRequest httpServletRequest) {
+        BankCard bankCard = bankCardRepository.findByCardNumberAndIsDeleted(request.cardNumber(), false)
+                .orElseThrow(() -> new BusinessServiceOperationException
+                        .BankCardNotFoundException(Constants.ErrorMessage.BANK_CARD_NOT_FOUND));
+        return new GetCardExtractResponse(transferHistoryRepository.findAllBySenderId(bankCard.getId()));
     }
 
 

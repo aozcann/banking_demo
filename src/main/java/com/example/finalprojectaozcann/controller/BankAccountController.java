@@ -38,7 +38,7 @@ public class BankAccountController {
     @PreAuthorize("hasAuthority('USER')")
     @DeleteMapping("/checking/{id}")
     public ResponseEntity<?> deleteCheckingAccountById(@PathVariable Long id,
-                                            HttpServletRequest httpServletRequest) {
+                                                       HttpServletRequest httpServletRequest) {
         idValidator.validate(id);
         return ResponseEntity.ok(bankAccountService.deleteCheckingAccountById(id, httpServletRequest));
     }
@@ -46,7 +46,7 @@ public class BankAccountController {
     @PreAuthorize("hasAuthority('USER')")
     @DeleteMapping("/deposit/{id}")
     public ResponseEntity<?> deleteDepositAccountById(@PathVariable Long id,
-                                            HttpServletRequest httpServletRequest) {
+                                                      HttpServletRequest httpServletRequest) {
         idValidator.validate(id);
         return ResponseEntity.ok(bankAccountService.deleteDepositAccountById(id, httpServletRequest));
     }

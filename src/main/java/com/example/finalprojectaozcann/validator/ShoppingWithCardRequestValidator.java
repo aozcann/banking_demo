@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import java.util.Objects;
 
 import static java.math.BigDecimal.ZERO;
+
 @Component
 public class ShoppingWithCardRequestValidator implements Validator<ShoppingWithCardRequest> {
     @Override

@@ -48,12 +48,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] AUTH_SWAGGER_URLS = {
             "/v2/api-docs",
-            "/configuration/ui",
+            "/configuration/**",
             "/swagger-resources/**",
             "/configuration/security",
             "/swagger-ui.html",
             "/webjars*/**",
-            "/swagger-ui/**",
+            "/swagger*/**",
     };
 
     @Override
@@ -69,11 +69,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/auth/login").permitAll()
                 .antMatchers("/api/auth/logout").permitAll()
-                .antMatchers( "/api/users/admin").permitAll()
+                .antMatchers("/api/users/admin").permitAll()
                 .antMatchers(AUTH_SWAGGER_URLS).permitAll()
                 .anyRequest()
                 .authenticated();
         http.addFilterBefore(customJWTAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http
+                .requestMatchers((matchers) -> matchers.antMatchers("/swagger-ui.html"))
+                .authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll())
+                .requestCache().disable()
+                .securityContext().disable()
+                .sessionManagement().disable();
     }
 
 }

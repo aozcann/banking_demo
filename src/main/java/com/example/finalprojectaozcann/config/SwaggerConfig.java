@@ -22,11 +22,11 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
 
-    private ApiKey apiKey(){
+    private ApiKey apiKey() {
         return new ApiKey("JWT", AUTHORIZATION_HEADER, "header");
     }
 
-    private ApiInfo apiInfo(){
+    private ApiInfo apiInfo() {
         return new ApiInfo(
                 "Final Project: Bank-User System",
                 "Final Project: Bank-User System",
@@ -40,7 +40,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public Docket api(){
+    public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .securityContexts(Arrays.asList(securityContext()))
@@ -51,11 +51,11 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .build();
     }
 
-    private SecurityContext securityContext(){
+    private SecurityContext securityContext() {
         return SecurityContext.builder().securityReferences(defaultAuth()).build();
     }
 
-    private List<SecurityReference> defaultAuth(){
+    private List<SecurityReference> defaultAuth() {
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;

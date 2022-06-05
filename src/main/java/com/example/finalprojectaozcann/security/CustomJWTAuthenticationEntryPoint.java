@@ -20,8 +20,8 @@ public class CustomJWTAuthenticationEntryPoint implements AuthenticationEntryPoi
                          AuthenticationException authException) throws IOException, ServletException {
         log.error("Unauthorized {}", authException.getMessage());
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-
     }
+
 
 
 }
