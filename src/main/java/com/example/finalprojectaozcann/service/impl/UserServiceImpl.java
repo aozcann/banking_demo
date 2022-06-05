@@ -168,7 +168,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         log.info("Admın generated successfully");
 
-        return new GenerateAdminUserResponse(user.getPassword(), user.getRoles());
+        return new GenerateAdminUserResponse("Norm@.1", user.getRoles());
     }
 
     public void checkAllAccountBalanceAndCardDebtIsZero(Collection<DepositAccount> depositAccounts,

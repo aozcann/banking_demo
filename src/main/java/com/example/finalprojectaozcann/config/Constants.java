@@ -25,6 +25,7 @@ public final class Constants {
         public static final String CARD_CCV_IS_WRONG = "Card ccv is wrong";
         public static final String CARD_EXPIRY_DATE_IS_WRONG = "Card expiry date is wrong";
         public static final String AN_AUTHENTICATION_OBJECT_WAS_NOT_FOUND_IN_THE_SECURITY_CONTEXT = "An Authentication object was not found in the SecurityContext";
+        public static final String USER_CAN_ONLY_QUERY_WITH_OWN_CARD = "User can only query with own card.";
     }
 
     public static class ValidationErrorMessage {

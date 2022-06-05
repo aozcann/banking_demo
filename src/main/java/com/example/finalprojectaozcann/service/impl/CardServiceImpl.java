@@ -45,8 +45,11 @@ public class CardServiceImpl implements CardService {
         }
 
         Long userId = jwtDecodeUtil.findUserIdFromJwt(httpServletRequest);
-        User user = findByIdAndIsDeleted(userId);
         CheckingAccount checkingAccount = findByAccountNumberAndIsDeleted(request.accountNumber());
+
+        checkLoggerEqualCardOwner(userId,checkingAccount.getUser().getId());
+
+        User user = findByIdAndIsDeleted(userId);
         BankCard bankCard = cardConverter.toCreateBankCard(user, checkingAccount);
         bankCardRepository.save(bankCard);
         return cardConverter.toBankCardResponse(bankCard, checkingAccount.getBalance());
@@ -56,8 +59,11 @@ public class CardServiceImpl implements CardService {
     public GetDebitCardResponse createDebitCard(CreateCardRequest request, HttpServletRequest httpServletRequest) {
 
         Long userId = jwtDecodeUtil.findUserIdFromJwt(httpServletRequest);
-        User user = findByIdAndIsDeleted(userId);
         CheckingAccount checkingAccount = findByAccountNumberAndIsDeleted(request.accountNumber());
+
+        checkLoggerEqualCardOwner(userId,checkingAccount.getUser().getId());
+
+        User user = findByIdAndIsDeleted(userId);
         DebitCard debitCard = cardConverter.toCreateDebitCard(user, checkingAccount);
         debitCardRepository.save(debitCard);
         return cardConverter.toDebitCardResponse(debitCard);
@@ -66,27 +72,43 @@ public class CardServiceImpl implements CardService {
     @Override
     public GetDebitCardDeptInquiryResponse getInquiryDebitCard(DebitCardDeptInquiryRequest request,
                                                                HttpServletRequest httpServletRequest) {
+        Long userId = jwtDecodeUtil.findUserIdFromJwt(httpServletRequest);
+
         DebitCard debitCard = debitCardRepository.findByCardNumberAndIsDeleted(request.debitCardNumber(), false)
                 .orElseThrow(() -> new BusinessServiceOperationException
                         .DebitCardNotFoundException(Constants.ErrorMessage.DEBIT_CARD_NOT_FOUND));
+
+        checkLoggerEqualCardOwner(userId,debitCard.getUser().getId());
+
+
         return cardConverter.toGetDebitCardDeptInquiryResponse(debitCard);
     }
 
     @Override
     public GetCardExtractResponse getExtractOfDebitCard(CardExtractRequest request, HttpServletRequest httpServletRequest) {
 
+        Long userId = jwtDecodeUtil.findUserIdFromJwt(httpServletRequest);
+
         DebitCard debitCard = debitCardRepository.findByCardNumberAndIsDeleted(request.cardNumber(), false)
                 .orElseThrow(() -> new BusinessServiceOperationException
                         .DebitCardNotFoundException(Constants.ErrorMessage.DEBIT_CARD_NOT_FOUND));
+
+        checkLoggerEqualCardOwner(userId,debitCard.getUser().getId());
 
         return new GetCardExtractResponse(transferHistoryRepository.findAllBySenderId(debitCard.getId()));
     }
 
     @Override
     public GetCardExtractResponse getExtractOfBankCard(CardExtractRequest request, HttpServletRequest httpServletRequest) {
+
+        Long userId = jwtDecodeUtil.findUserIdFromJwt(httpServletRequest);
+
         BankCard bankCard = bankCardRepository.findByCardNumberAndIsDeleted(request.cardNumber(), false)
                 .orElseThrow(() -> new BusinessServiceOperationException
                         .BankCardNotFoundException(Constants.ErrorMessage.BANK_CARD_NOT_FOUND));
+
+        checkLoggerEqualCardOwner(userId,bankCard.getUser().getId());
+
         return new GetCardExtractResponse(transferHistoryRepository.findAllBySenderId(bankCard.getId()));
     }
 
@@ -104,5 +126,13 @@ public class CardServiceImpl implements CardService {
                         .AccountNotFoundException(Constants.ErrorMessage.ACCOUNT_NOT_FOUND));
     }
 
+
+
+    private void checkLoggerEqualCardOwner(Long loggerId, Long cardOwnerId) {
+        if (!(loggerId.equals(cardOwnerId))) {
+            throw new BusinessServiceOperationException
+                    .UserCanNotTransferException(Constants.ErrorMessage.USER_CAN_ONLY_QUERY_WITH_OWN_CARD);
+        }
+    }
 
 }

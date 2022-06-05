@@ -44,20 +44,20 @@ public class CardController {
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping(path = "/debit/inquiry")
-    public ResponseEntity<GetDebitCardDeptInquiryResponse> getInquiryDebitCard(DebitCardDeptInquiryRequest request, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<GetDebitCardDeptInquiryResponse> getInquiryDebitCard(@RequestBody DebitCardDeptInquiryRequest request, HttpServletRequest httpServletRequest) {
         debitCardDeptInquiryRequestValidator.validate(request);
         return ResponseEntity.ok(cardService.getInquiryDebitCard(request, httpServletRequest));
     }
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping(path = "/debit/extract")
-    public ResponseEntity<GetCardExtractResponse> getExtractOfDebitCard(CardExtractRequest request, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<GetCardExtractResponse> getExtractOfDebitCard(@RequestBody CardExtractRequest request, HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok(cardService.getExtractOfDebitCard(request, httpServletRequest));
     }
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping(path = "/bank/extract")
-    public ResponseEntity<GetCardExtractResponse> getExtractOfBankCard(CardExtractRequest request, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<GetCardExtractResponse> getExtractOfBankCard(@RequestBody CardExtractRequest request, HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok(cardService.getExtractOfBankCard(request, httpServletRequest));
     }
 

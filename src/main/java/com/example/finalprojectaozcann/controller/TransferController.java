@@ -86,14 +86,14 @@ public class TransferController {
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping(path = "/debit-card/shopping")
-    public ResponseEntity<SuccessShoppingResponse> shoppingWithDebitCard(ShoppingWithCardRequest request, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<SuccessShoppingResponse> shoppingWithDebitCard(@RequestBody ShoppingWithCardRequest request, HttpServletRequest httpServletRequest) {
         shoppingWithCardRequestValidator.validate(request);
         return ResponseEntity.ok(transferService.shoppingWithDebitCard(request, httpServletRequest));
     }
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping(path = "/bank-card/shopping")
-    public ResponseEntity<SuccessShoppingResponse> shoppingWithBankCard(ShoppingWithCardRequest request, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<SuccessShoppingResponse> shoppingWithBankCard(@RequestBody ShoppingWithCardRequest request, HttpServletRequest httpServletRequest) {
         shoppingWithCardRequestValidator.validate(request);
         return ResponseEntity.ok(transferService.shoppingWithBankCard(request, httpServletRequest));
     }

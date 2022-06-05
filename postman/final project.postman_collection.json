@@ -1,0 +1,984 @@
+{
+	"info": {
+		"_postman_id": "a7177426-b9da-4a7f-b881-ed2ae6075081",
+		"name": "final project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19951051"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "GetAllUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6MTIzNDU2Nzg5MTAsImV4cCI6MTY1Mzg0MjkyMSwiaWF0IjoxNjUzODQxMTIxfQ.W0B_5-W_hNL_BvAahISDg7cpmnsTPOZIoCH8W7422hA0OSlOe6Z_4du7p6uI-7B0-zZF2yYizyhKp7sc1CPp9w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "hardDeleteUserrById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6MTIzNDU2Nzg5MTEsImV4cCI6MTY1MzU3NDQyNywiaWF0IjoxNjUzNTcyNjI3fQ.fSRmHwmhf53FmGHVuq9r2s5Ivlp9o8_rCehfGLeSYZBPmxgsms5Vbz-6Q0sH36nj8cAbwAkd8G0ZnVXObyaV3g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/customers/29?isHardDeleted=true",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customers",
+								"29"
+							],
+							"query": [
+								{
+									"key": "isHardDeleted",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUserByID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6MTIzNDU2Nzg5MTAsImV4cCI6MTY1Mzg1MTU2MCwiaWF0IjoxNjUzODQ5NzYwLCJ1c2VySWQiOjcxfQ.eh-1Awo5H5Dz40GfmEa3wuRzxYKl21VzQLCYpvDbNlP8POwEefgKwYA7mHkHBgqlKFXPFDhV9o3GAG-ivk-iTw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ahmet\",\r\n    \"password\": \"1234\",\r\n    \"identityNumber\" : \"1234567\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/customers/23",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customers",
+								"23"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6MTAwMDAwMDAwMDAsImV4cCI6MTY1NDE2ODk2NCwiaWF0IjoxNjU0MTY3MTY0LCJ1c2VySWQiOjF9.McQbYwl8B1xq96aXbwWqnYxp5rbtHHxzeeI18LK1RAp3ZVy8uHTq6mMD0jsZ5qnPCBvI6k8BrZqkRcWVnvYD-A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Ahmet\",\r\n    \"surname\":\"ozcan\",\r\n    \"email\":\"ozcanahmet94@gmail.com\",\r\n    \"identityNumber\":null,\r\n    \"password\":\"a1b2c3\",\r\n    \"address\":\"ev adresi\",\r\n    \"phoneNumber\":\"05419322436\",\r\n    \"birthday\":\"12/01/2000\",\r\n    \"userType\":\"INDIVIDUAL\",\r\n    \"roles\":[\r\n        \"USER\"\r\n    ]\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateUserById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6MTAwMDAwMDAwMDAsImV4cCI6MTY1MzgzNjg0MiwiaWF0IjoxNjUzODM1MDQyfQ.qIZYqpUIkMF_f6PKG91XrJUv8DEaNbD--8DIDHyCZsishHBTQLu3GwhaGz_-mDey4Z_Luj2DQhGu7eUm3Al0Xg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Ahmet\",\r\n    \"surname\":\"ozcan\",\r\n    \"email\":\"ozcanahmet94@gmail.com\",\r\n    \"identityNumber\":12345678910,\r\n    \"password\":\"a1b2c3\",\r\n    \"address\":\"ev adresi\",\r\n    \"phoneNumber\":\"05419322436\",\r\n    \"birthday\":\"12/01/2000\",\r\n    \"userType\":\"INDIVIDUAL\",\r\n    \"roles\":[\r\n        \"USER\"\r\n    ]\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUserrById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6MTIzNDU2Nzg5MTEsImV4cCI6MTY1MzU3NDQyNywiaWF0IjoxNjUzNTcyNjI3fQ.fSRmHwmhf53FmGHVuq9r2s5Ivlp9o8_rCehfGLeSYZBPmxgsms5Vbz-6Q0sH36nj8cAbwAkd8G0ZnVXObyaV3g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/user/29",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"29"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GeneratedAdminUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6MTIzNDU2Nzg5MTEsImV4cCI6MTY1MzU3NDQyNywiaWF0IjoxNjUzNTcyNjI3fQ.fSRmHwmhf53FmGHVuq9r2s5Ivlp9o8_rCehfGLeSYZBPmxgsms5Vbz-6Q0sH36nj8cAbwAkd8G0ZnVXObyaV3g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/customers/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customers",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "createCheckingAccount",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6MTIzNDU2Nzg5MTAsImV4cCI6MTY1MzczOTQ2NiwiaWF0IjoxNjUzNzM3NjY2fQ.7kab-GtikLxh3hKZv6BdIjS0d4VCCzSwok7TB8c5iZ5kdGUT3uI4M6DR1mdraoKCD3Vo2m-Ea8_eiBqUq_5_6A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"balance\": 100000,\r\n    \"currency\" : \"TRY\",\r\n    \"CustomerId\" : 57\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/accounts/checking",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"accounts",
+								"checking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createDepositAccount",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6MTIzNDU2Nzg5MTAsImV4cCI6MTY1Mzc0OTIzMywiaWF0IjoxNjUzNzQ3NDMzfQ.CXzOIsEhcOxi9-aduXwaw0MFe_1XChU-x-EIx_nxn3IgHVyZBQVViSrZgL4UtlJLXeI7iyeqbCeZbJ1oLOAQ_Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"balance\": 100000,\r\n    \"currency\" : \"TRY\",\r\n    \"maturity\":\"DAILY\",\r\n    \"interestRate\":1.10,\r\n    \"CustomerId\" : 57\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/accounts/deposit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"accounts",
+								"deposit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteCheckingAccountById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6MTIzNDU2Nzg5MTIsImV4cCI6MTY1NDQyNjQ2OSwiaWF0IjoxNjU0NDI0NjY5LCJ1c2VySWQiOjMyfQ.q-1vjnDPabju4SaErwCmR-feH92NPOBtOvG976OEjAEPvsI5UgpDOA38t8RMfNtocsWsg2u5t_u6X0mwbfpTjA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/accounts/checking/36",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"accounts",
+								"checking",
+								"36"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteCheckingAccountById Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6MTIzNDU2Nzg5MTIsImV4cCI6MTY1NDQyNjQ2OSwiaWF0IjoxNjU0NDI0NjY5LCJ1c2VySWQiOjMyfQ.q-1vjnDPabju4SaErwCmR-feH92NPOBtOvG976OEjAEPvsI5UgpDOA38t8RMfNtocsWsg2u5t_u6X0mwbfpTjA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/accounts/deposit/39",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"accounts",
+								"deposit",
+								"39"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "AdminLogin",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"identityNumber\" : 10000000000,\r\n    \"password\": \"Norm@.1\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UserLogin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ahmet\",\r\n    \"password\": \"1234\",\r\n    \"identityNumber\" : \"1234567\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Card",
+			"item": [
+				{
+					"name": "CreateBankCard",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6MTIzNDU2Nzg5MTIsImV4cCI6MTY1NDQyNjQ2OSwiaWF0IjoxNjU0NDI0NjY5LCJ1c2VySWQiOjMyfQ.q-1vjnDPabju4SaErwCmR-feH92NPOBtOvG976OEjAEPvsI5UgpDOA38t8RMfNtocsWsg2u5t_u6X0mwbfpTjA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"accountNumber\":\"73646522434192624\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/cards/bank",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"cards",
+								"bank"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateDebitCard",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6MTIzNDU2Nzg5MTIsImV4cCI6MTY1NDQyNjQ2OSwiaWF0IjoxNjU0NDI0NjY5LCJ1c2VySWQiOjMyfQ.q-1vjnDPabju4SaErwCmR-feH92NPOBtOvG976OEjAEPvsI5UgpDOA38t8RMfNtocsWsg2u5t_u6X0mwbfpTjA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"accountNumber\":\"73646522434192624\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/cards/debit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"cards",
+								"debit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateDebitCardInquiry",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6MTIzNDU2Nzg5MTIsImV4cCI6MTY1NDQyNjQ2OSwiaWF0IjoxNjU0NDI0NjY5LCJ1c2VySWQiOjMyfQ.q-1vjnDPabju4SaErwCmR-feH92NPOBtOvG976OEjAEPvsI5UgpDOA38t8RMfNtocsWsg2u5t_u6X0mwbfpTjA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"debitCardNumber\":\"8276533293510209\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/cards/debit/inquiry",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"cards",
+								"debit",
+								"inquiry"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateDebitCardExtract",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6MTIzNDU2Nzg5MTIsImV4cCI6MTY1NDQyNjQ2OSwiaWF0IjoxNjU0NDI0NjY5LCJ1c2VySWQiOjMyfQ.q-1vjnDPabju4SaErwCmR-feH92NPOBtOvG976OEjAEPvsI5UgpDOA38t8RMfNtocsWsg2u5t_u6X0mwbfpTjA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cardNumber\":\"8276533293510209\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/cards/debit/extract",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"cards",
+								"debit",
+								"extract"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateDebitCardExtract Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6MTIzNDU2Nzg5MTIsImV4cCI6MTY1NDQyNjQ2OSwiaWF0IjoxNjU0NDI0NjY5LCJ1c2VySWQiOjMyfQ.q-1vjnDPabju4SaErwCmR-feH92NPOBtOvG976OEjAEPvsI5UgpDOA38t8RMfNtocsWsg2u5t_u6X0mwbfpTjA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cardNumber\":\"7489879067332998\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/cards/bank/extract",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"cards",
+								"bank",
+								"extract"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transfer",
+			"item": [
+				{
+					"name": "CheckingToDeposit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"senderIban\": \"\",\r\n    \"receiverIban\": \"\",\r\n    \"amount\": 1,\r\n    \"transferDate\": \"\",\r\n    \"description\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/transfers//checking/deposit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transfers",
+								"",
+								"checking",
+								"deposit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DepositToChecking",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"senderIban\": \"\",\r\n    \"receiverIban\": \"\",\r\n    \"amount\": 1,\r\n    \"transferDate\": \"\",\r\n    \"description\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/transfers/deposit/checking",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transfers",
+								"deposit",
+								"checking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CheckingToChecking",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"senderIban\": \"\",\r\n    \"receiverIban\": \"\",\r\n    \"amount\": 1,\r\n    \"transferDate\": \"\",\r\n    \"description\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/transfers/checking/checking",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transfers",
+								"checking",
+								"checking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CheckingToDebit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"senderIban\": \"\",\r\n    \"cardNumber\": \"\",\r\n    \"amount\": 1,\r\n    \"transferDate\": \"\",\r\n    \"description\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/transfers/checking/debit-card",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transfers",
+								"checking",
+								"debit-card"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AtmToBankCard",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6MTIzNDU2Nzg5MTIsImV4cCI6MTY1NDQyODMyMSwiaWF0IjoxNjU0NDI2NTIxLCJ1c2VySWQiOjMyfQ.8crkUGLWa3knECKkzlR6owOAuxQ5W5OHQTBrAZdYIWCZN0stUqRK5XCu_OhBd882KiBNzq-vOc9eLWMtEHZJnA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cardNumber\": \"7489879067332998\",\r\n    \"password\": \"8912\",\r\n    \"amount\": 1000000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/transfers/atm/bank-card",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transfers",
+								"atm",
+								"bank-card"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AtmToDebitCard",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6MTIzNDU2Nzg5MTIsImV4cCI6MTY1NDQyODMyMSwiaWF0IjoxNjU0NDI2NTIxLCJ1c2VySWQiOjMyfQ.8crkUGLWa3knECKkzlR6owOAuxQ5W5OHQTBrAZdYIWCZN0stUqRK5XCu_OhBd882KiBNzq-vOc9eLWMtEHZJnA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cardNumber\": \"7489879067332998\",\r\n    \"password\": \"8912\",\r\n    \"amount\": 1000000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/transfers/atm/debit-card",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transfers",
+								"atm",
+								"debit-card"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DebitCardShopping",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6MTIzNDU2Nzg5MTIsImV4cCI6MTY1NDQyODMyMSwiaWF0IjoxNjU0NDI2NTIxLCJ1c2VySWQiOjMyfQ.8crkUGLWa3knECKkzlR6owOAuxQ5W5OHQTBrAZdYIWCZN0stUqRK5XCu_OhBd882KiBNzq-vOc9eLWMtEHZJnA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cardNumber\": \"7489879067332998\",\r\n    \"expiryDate\": \"\",\r\n    \"ccv\": \"\",\r\n    \"password\":\"\",\r\n    \"payeeIBAN\":\"\",\r\n    \"price\":\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/transfers/debit-card/shopping",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transfers",
+								"debit-card",
+								"shopping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BankCardShopping",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZGVudGl0eU51bWJlciI6MTIzNDU2Nzg5MTIsImV4cCI6MTY1NDQyODMyMSwiaWF0IjoxNjU0NDI2NTIxLCJ1c2VySWQiOjMyfQ.8crkUGLWa3knECKkzlR6owOAuxQ5W5OHQTBrAZdYIWCZN0stUqRK5XCu_OhBd882KiBNzq-vOc9eLWMtEHZJnA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cardNumber\": \"7489879067332998\",\r\n    \"expiryDate\": \"\",\r\n    \"ccv\": \"\",\r\n    \"password\":\"\",\r\n    \"payeeIBAN\":\"\",\r\n    \"price\":\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/transfers/bank-card/shopping",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transfers",
+								"bank-card",
+								"shopping"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
