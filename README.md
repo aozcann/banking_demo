@@ -11,6 +11,7 @@ Identity: 10000000000
 
 Password: Norm@.1
 
+Also, all endpoint postman collections are in postman folder.
 ## Project design
 
 ![Proje..design](img/final_project_design.png)

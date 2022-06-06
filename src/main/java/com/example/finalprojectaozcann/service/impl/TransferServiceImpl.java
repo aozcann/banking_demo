@@ -59,7 +59,7 @@ public class TransferServiceImpl implements TransferService {
         if (!(DateUtil.dateFormatStringToLocalDate(request.transferDate()).equals(LocalDate.now()))) {
 
             TransferHistory transferHistory = transferConverter.createTransferHistoryForAccountToAccount(senderAccount,
-                    receiverAccount,request.amount(),BigDecimal.ONE, request.description());
+                    receiverAccount, request.amount(), BigDecimal.ONE, request.description());
             transferHistory.setScheduled(true);
             transferHistory.setTransferDate(DateUtil.dateFormatStringToLocalDate(request.transferDate()));
             transferHistoryRepository.save(transferHistory);
@@ -83,8 +83,9 @@ public class TransferServiceImpl implements TransferService {
         return transferConverter.toSuccessAccountTransferResponse(amount, receiverAccount, senderAccount, currencyRate,
                 transferHistory.getTransferDate());
     }
-    @Scheduled(cron =  "0 1 1 ? * *") // every day 1:01 am
-    public void scheduledTransfer(){
+
+    @Scheduled(cron = "0 1 1 ? * *") // every day 1:01 am
+    public void scheduledTransfer() {
         Collection<TransferHistory> scheduledTransferList = transferHistoryRepository.findAllByIsScheduled(true);
         for (TransferHistory transferHistory : scheduledTransferList) {
             if (transferHistory.getTransferDate().equals(LocalDate.now())) {

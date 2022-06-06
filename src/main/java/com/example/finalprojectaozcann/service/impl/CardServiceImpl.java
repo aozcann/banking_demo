@@ -47,7 +47,7 @@ public class CardServiceImpl implements CardService {
         Long userId = jwtDecodeUtil.findUserIdFromJwt(httpServletRequest);
         CheckingAccount checkingAccount = findByAccountNumberAndIsDeleted(request.accountNumber());
 
-        checkLoggerEqualCardOwner(userId,checkingAccount.getUser().getId());
+        checkLoggerEqualCardOwner(userId, checkingAccount.getUser().getId());
 
         User user = findByIdAndIsDeleted(userId);
         BankCard bankCard = cardConverter.toCreateBankCard(user, checkingAccount);
@@ -61,7 +61,7 @@ public class CardServiceImpl implements CardService {
         Long userId = jwtDecodeUtil.findUserIdFromJwt(httpServletRequest);
         CheckingAccount checkingAccount = findByAccountNumberAndIsDeleted(request.accountNumber());
 
-        checkLoggerEqualCardOwner(userId,checkingAccount.getUser().getId());
+        checkLoggerEqualCardOwner(userId, checkingAccount.getUser().getId());
 
         User user = findByIdAndIsDeleted(userId);
         DebitCard debitCard = cardConverter.toCreateDebitCard(user, checkingAccount);
@@ -78,7 +78,7 @@ public class CardServiceImpl implements CardService {
                 .orElseThrow(() -> new BusinessServiceOperationException
                         .DebitCardNotFoundException(Constants.ErrorMessage.DEBIT_CARD_NOT_FOUND));
 
-        checkLoggerEqualCardOwner(userId,debitCard.getUser().getId());
+        checkLoggerEqualCardOwner(userId, debitCard.getUser().getId());
 
 
         return cardConverter.toGetDebitCardDeptInquiryResponse(debitCard);
@@ -93,7 +93,7 @@ public class CardServiceImpl implements CardService {
                 .orElseThrow(() -> new BusinessServiceOperationException
                         .DebitCardNotFoundException(Constants.ErrorMessage.DEBIT_CARD_NOT_FOUND));
 
-        checkLoggerEqualCardOwner(userId,debitCard.getUser().getId());
+        checkLoggerEqualCardOwner(userId, debitCard.getUser().getId());
 
         return new GetCardExtractResponse(transferHistoryRepository.findAllBySenderId(debitCard.getId()));
     }
@@ -107,7 +107,7 @@ public class CardServiceImpl implements CardService {
                 .orElseThrow(() -> new BusinessServiceOperationException
                         .BankCardNotFoundException(Constants.ErrorMessage.BANK_CARD_NOT_FOUND));
 
-        checkLoggerEqualCardOwner(userId,bankCard.getUser().getId());
+        checkLoggerEqualCardOwner(userId, bankCard.getUser().getId());
 
         return new GetCardExtractResponse(transferHistoryRepository.findAllBySenderId(bankCard.getId()));
     }
@@ -125,7 +125,6 @@ public class CardServiceImpl implements CardService {
                 .orElseThrow(() -> new BusinessServiceOperationException
                         .AccountNotFoundException(Constants.ErrorMessage.ACCOUNT_NOT_FOUND));
     }
-
 
 
     private void checkLoggerEqualCardOwner(Long loggerId, Long cardOwnerId) {

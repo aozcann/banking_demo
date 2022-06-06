@@ -22,6 +22,4 @@ public class CustomJWTAuthenticationEntryPoint implements AuthenticationEntryPoi
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }
 
-
-
 }

@@ -26,10 +26,12 @@ public final class Constants {
         public static final String CARD_EXPIRY_DATE_IS_WRONG = "Card expiry date is wrong";
         public static final String AN_AUTHENTICATION_OBJECT_WAS_NOT_FOUND_IN_THE_SECURITY_CONTEXT = "An Authentication object was not found in the SecurityContext";
         public static final String USER_CAN_ONLY_QUERY_WITH_OWN_CARD = "User can only query with own card.";
+        public static final String BIRTH_DAY_FORMAT = "birth day format: 'dd/MM/yyyy' ";
     }
 
     public static class Message {
-        public static final String SCHEDULED_TRANSFER = "Scheduled transfer on the list successfully. If you have money in your account, your transaction will be processed.";}
+        public static final String SCHEDULED_TRANSFER = "Scheduled transfer on the list successfully. If you have money in your account, your transaction will be processed.";
+    }
 
     public static class ValidationErrorMessage {
         public static final String REQUEST_CAN_NOT_BE_NULL_OR_EMPTY = "Request can not be null or empty";

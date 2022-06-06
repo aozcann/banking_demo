@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.time.format.DateTimeParseException;
+
 @ControllerAdvice
 public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
@@ -30,6 +32,13 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     public final ResponseEntity<ErrorResponse> businessServiceOperationException(BaseException message) {
         ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
                 message.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(DateTimeParseException.class)
+    public final ResponseEntity<ErrorResponse> handleDateTimeParseException() {
+        ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
+                Constants.ErrorMessage.BIRTH_DAY_FORMAT);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 

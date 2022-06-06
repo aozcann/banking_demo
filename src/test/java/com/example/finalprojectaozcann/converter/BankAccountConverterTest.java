@@ -26,7 +26,6 @@ class BankAccountConverterTest {
     @InjectMocks
     BankAccountConverter bankAccountConverter;
 
-
     @Test
     void should_returnCheckingAccount_when_toCreateCheckingAccountMethod() {
 

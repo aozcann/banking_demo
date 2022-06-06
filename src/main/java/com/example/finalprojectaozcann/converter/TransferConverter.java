@@ -128,11 +128,11 @@ public class TransferConverter {
 
     public SuccessAccountTransferResponse toSuccessAccountTransferResponse(String message) {
         return new SuccessAccountTransferResponse(null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            message);
+                null,
+                null,
+                null,
+                null,
+                null,
+                message);
     }
 }
